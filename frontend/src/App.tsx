@@ -23,7 +23,7 @@ const AppContent = () => {
   return (
     <div className="min-h-screen flex flex-col">
         <ToastContainer position="top-right" autoClose={3000} />
-      {!isAdmin && <Header />}
+      {!isAdmin && location.pathname !== '/' && <Header />}
       <main className="flex-grow">
         <Routes>
           
@@ -38,6 +38,7 @@ const AppContent = () => {
           <Route path="/gallery" element={<Gallery/>}/>
           <Route path="/contact" element={<Contact/>}/>
           <Route path="/ads" element={<AdsDisplay/>}/>
+          <Route path="/about" element={<div className="min-h-screen bg-black text-white flex items-center justify-center"><h1 className="text-4xl font-bold">About City Marathon 2026</h1></div>} />
 
         </Routes>
       </main>

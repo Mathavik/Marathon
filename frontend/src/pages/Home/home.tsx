@@ -1,8 +1,11 @@
 import AdsDisplay from "../AdsDisplay/AdsDisplay";
-import AboutSports from "./About";
-import CompetitionCards from "./CompetitionCards";
 import HeroSection from "./HeroSection";
-import ProcessSteps from "./ProcessSteps";
+import MarathonCategories from "./MarathonCategories";
+import HomeRegistration from "./HomeRegistration";
+import PaymentPreview from "./PaymentPreview";
+import EventHighlights from "./EventHighlights";
+import MarathonGallery from "./MarathonGallery";
+import Sponsors from "./Sponsors";
 
 
 const Home = () => {
@@ -10,9 +13,12 @@ const Home = () => {
     <>
     <AdsDisplay/>
      <HeroSection/>
-     <AboutSports/>
-     <CompetitionCards/>
-     <ProcessSteps/>
+     <MarathonCategories/>
+     <HomeRegistration/>
+     <PaymentPreview/>
+     <EventHighlights/>
+     <MarathonGallery/>
+     <Sponsors/>
     </>
   );
 };

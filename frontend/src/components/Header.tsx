@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Menu, X, Trophy } from 'lucide-react';
-import logo from '../assets/logo.png';
+import { Menu, X, Footprints } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import axiosInstance from '../axiosInstance';
 
@@ -13,7 +12,6 @@ const Header: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [schoolName, setSchoolName] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [timeLeft, setTimeLeft] = useState<string>('');
 
   // const isLoggedIn = !!localStorage.getItem("token");
   // const schoolName = localStorage.getItem("school_name");
@@ -35,37 +33,11 @@ const Header: React.FC = () => {
   }, []);
   const navItems = [
     { name: 'Home', href: '/' },
+    { name: 'About', href: '/about' },
     { name: 'Events', href: '/categories' },
-    { name: 'Schedule', href: '/schedule' },
-    { name: 'Gallery', href: '/gallery' },
+    { name: 'Register', href: '/register' },
     { name: 'Contact', href: '/contact' },
   ];
-
-  // Countdown function
-  const getTimeLeft = (eventDate: string): string => {
-    const now = new Date().getTime();
-    const event = new Date(eventDate).getTime();
-    const diff = event - now;
-
-    if (diff <= 0) return "Event Started 🔴";
-
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((diff / (1000 * 60)) % 60);
-    const seconds = Math.floor((diff / 1000) % 60);
-
-    return `${days}d ${hours}h ${minutes}m ${seconds}s left`;
-  };
-
-  // Update countdown every second
-  useEffect(() => {
-    const mainEventDate = "2026-04-10T09:00:00"; // Your event date
-    const timer = setInterval(() => {
-      setTimeLeft(getTimeLeft(mainEventDate));
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
 
   return (
     <header className="bg-slate-950 text-white shadow-2xl sticky top-0 z-50 border-b border-amber-500/30">
@@ -74,7 +46,14 @@ const Header: React.FC = () => {
 
           {/* Logo */}
           <div className="flex items-center space-x-4">
-            <img src={logo} alt="Event Logo" className="h-18 w-auto object-contain" />
+            <div className="flex items-center gap-2">
+              <div className="bg-orange-600 p-2 rounded-md">
+                <Footprints size={24} className="text-white" />
+              </div>
+              <h1 className="text-2xl font-black italic tracking-tighter uppercase">
+                Marathon <span className="text-orange-500">2026</span>
+              </h1>
+            </div>
           </div>
 
 
@@ -83,17 +62,12 @@ const Header: React.FC = () => {
             {navItems.map((item) => (
               <Link
                 key={item.name}
-                to={item.href} // 'href' badhula 'to' podanum
-                className="text-sm font-semibold text-slate-300 hover:text-amber-500 transition-all duration-300 uppercase tracking-widest"
+                to={item.href}
+                className="px-4 py-2 rounded-full bg-slate-800 text-slate-300 hover:text-white hover:bg-orange-500 transition-all duration-300 uppercase tracking-widest text-sm font-semibold shadow-lg hover:shadow-orange-500/50"
               >
                 {item.name}
               </Link>
             ))}
-
-            {/* Countdown */}
-            <div className="ml-6 px-4 py-2 bg-amber-500 text-slate-900 rounded-full font-bold text-sm">
-              {timeLeft}
-            </div>
 
             {/* Profile / Login */}
             {isLoggedIn ? (
