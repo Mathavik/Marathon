@@ -12,7 +12,15 @@ interface HeroData {
   primary_button: string;
   secondary_button: string;
 }
+const scrollToRegistration = () => {
+  const section = document.getElementById("home-registration");
 
+  if (section) {
+    section.scrollIntoView({
+      behavior: "smooth",
+    });
+  }
+};
 const HeroSection = () => {
   const [heroData, setHeroData] = useState<HeroData | null>(null);
 
@@ -145,9 +153,12 @@ const HeroSection = () => {
         <div className="flex gap-6 flex-wrap justify-center">
           
           {/* Primary Button */}
-          <button className="bg-gradient-to-r from-orange-500 to-orange-600 px-8 py-4 rounded-full font-black text-white text-lg uppercase tracking-wide shadow-2xl hover:shadow-orange-500/50 hover:scale-105 transition-all duration-300">
-            {heroData?.primary_button}
-          </button>
+         <button
+  onClick={scrollToRegistration}
+  className="bg-gradient-to-r from-orange-500 to-orange-600 px-8 py-4 rounded-full font-black text-white text-lg uppercase tracking-wide shadow-2xl hover:shadow-orange-500/50 hover:scale-105 transition-all duration-300"
+>
+  {heroData?.primary_button}
+</button>
 
         </div>
       </div>

@@ -123,7 +123,7 @@ const HomeRegistration: React.FC = () => {
 };
 
   return (
-<div className="min-h-screen bg-white flex items-center justify-center p-4">
+<div id="home-registration" className="min-h-screen bg-white flex items-center justify-center p-4">
         <div className="w-full max-w-6xl bg-white rounded-2xl shadow-2xl overflow-hidden">
         <div className="flex flex-row">
           {/* Left Side - Info Section */}
