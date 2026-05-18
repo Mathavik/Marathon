@@ -80,6 +80,7 @@ Route::post('/students', [StudentController::class, 'store']);
 // Route::post('/event-register', [EventController::class, 'store']);
 
 Route::get('/events', [EventController::class, 'index']);
+Route::get('/hero', [EventController::class, 'hero']);
 Route::post('/events', [EventController::class, 'store']);
 Route::get('/events/{id}', [EventController::class, 'show']);
 Route::put('/events/{id}', [EventController::class, 'update']);
@@ -155,3 +156,8 @@ Route::get('/schools', [EventRegistrationsController::class, 'getSchools']);
 Route::get('/events-by-school/{school}', [EventRegistrationsController::class, 'getEventsBySchool']);
 Route::get('/students-by-event/{event}', [EventRegistrationsController::class, 'getStudentsByEvent']);
 Route::get('/download-certificate/{event}/{school}', [EventRegistrationsController::class, 'downloadCertificate']);
+
+use App\Http\Controllers\HeroSectionController;
+
+Route::get('/hero-section', [HeroSectionController::class, 'index']);
+Route::post('/hero-section', [HeroSectionController::class, 'store']);

@@ -15,6 +15,7 @@ import CertificateSettings from "../pages/CertificateSettings";
 import AdminProtectedRoute from "./AdminProtectedRoute";
 import AdminRegistrationsPage from "../pages/AdminRegistrationsPage";
 import ParticipationCertificate from "../pages/ParticipationCertificate";
+import AdminHeroSection from "../../pages/Home/AdminHeroSection";
 const AdminRoutes: React.FC = () => {
   return (
     <Routes>
@@ -43,6 +44,8 @@ const AdminRoutes: React.FC = () => {
                <Route path="adminregistrationspage" element={<AdminRegistrationsPage />} />
 
                <Route path="participation-certificate" element={<ParticipationCertificate />} />
+               <Route path="hero-section" element={<AdminHeroSection/>}/>
+
             </Routes>
         </AdminLayout>
           </AdminProtectedRoute>
