@@ -119,7 +119,7 @@ const AdminLogin: React.FC = () => {
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-300/50 w-5 h-5 group-focus-within:text-blue-400 transition-colors" />
               <input
                 type="email"
-                placeholder="admin@competition.com"
+                placeholder="admin@marathon.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/10 rounded-2xl text-white placeholder-blue-200/20 focus:ring-2 focus:ring-blue-500/50 outline-none transition-all hover:bg-white/10"
@@ -163,7 +163,7 @@ const AdminLogin: React.FC = () => {
 
         <div className="mt-8 pt-6 border-t border-white/10 text-center">
             <p className="text-blue-100/30 text-xs">
-                © 2026 Grand Competition Management System
+                © 2026 Marathon Management System
             </p>
         </div>
       </motion.div>

@@ -125,7 +125,7 @@ const Registrations: React.FC = () => {
       {/* FOOTER INFO */}
       <div className="mt-8 flex justify-between items-center px-4">
         <p className="text-[10px] text-slate-600 font-black uppercase tracking-widest">
-          &copy; 2026 Competition Portal // Secure Registry
+          &copy; 2026 Marathon Portal // Secure Registry
         </p>
         <div className="flex gap-2">
           <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
