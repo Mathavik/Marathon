@@ -14,20 +14,25 @@ class GalleryController extends Controller
 
     // 🔥 Admin upload
     public function store(Request $request)
-    {
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('upload/gallery'), $filename);
+{
+    if ($request->hasFile('image')) {
 
-            $gallery = Gallery::create([
-                'image' => $filename,
-                'category' => $request->category
-            ]);
+        $file = $request->file('image');
 
-            return response()->json($gallery);
-        }
+        $filename = time() . '.' . $file->getClientOriginalExtension();
 
-        return response()->json(['error' => 'No image'], 400);
+        $file->move(public_path('upload/gallery'), $filename);
+
+        $gallery = Gallery::create([
+            'image' => $filename,
+            'category' => 'marathon' // fixed category
+        ]);
+
+        return response()->json($gallery);
     }
+
+    return response()->json([
+        'error' => 'No image'
+    ], 400);
+}
 }

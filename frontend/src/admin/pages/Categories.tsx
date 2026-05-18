@@ -119,7 +119,7 @@ const Categories: React.FC = () => {
           <h2 className="text-3xl font-black text-white uppercase tracking-tighter">
             System <span className="text-amber-500">Categories</span>
           </h2>
-          <p className="text-slate-500 text-sm mt-1 font-medium italic">Organize competition domains and visual assets.</p>
+          <p className="text-slate-500 text-sm mt-1 font-medium italic">Organize Marathon categories and visual assets.</p>
         </div>
         <button
           onClick={() => setShowAddModal(true)}

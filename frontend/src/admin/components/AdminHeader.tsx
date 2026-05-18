@@ -57,7 +57,13 @@ const AdminHeader: React.FC = () => {
   }, []);
 
   return (
-    <header className="h-16 bg-slate-950 border-b border-amber-500/20 flex items-center justify-end px-8 shadow-2xl relative z-50">
+    <header className="h-20 bg-[#07111f]/95 border-b border-orange-500/10 flex items-center justify-between px-8 shadow-[0_15px_40px_rgba(0,0,0,0.35)] relative z-50 backdrop-blur-xl">
+
+      <div className="flex items-center gap-4">
+        <div className="rounded-3xl border border-orange-500/20 bg-orange-500/10 px-4 py-2 text-orange-300 text-xs uppercase tracking-[0.3em] font-black shadow-[0_10px_30px_rgba(249,115,22,0.1)]">
+          Admin Panel
+        </div>
+      </div>
 
       <div className="flex items-center gap-6">
 
@@ -82,11 +88,11 @@ const AdminHeader: React.FC = () => {
 </div>
 
         {/* User Info */}
-        <div className="text-right hidden sm:block border-r border-slate-800 pr-6">
-          <p className="text-white text-xs font-black uppercase tracking-wider">
+        <div className="text-right hidden sm:block border-r border-orange-500/20 pr-6">
+          <p className="text-white text-xs font-black uppercase tracking-[0.35em]">
             Admin User
           </p>
-          <p className="text-amber-500 text-[10px] font-bold uppercase tracking-widest">
+          <p className="text-orange-400 text-[10px] font-bold uppercase tracking-[0.25em]">
             Super Admin
           </p>
         </div>
@@ -94,7 +100,7 @@ const AdminHeader: React.FC = () => {
         {/* Logout */}
         <button
           onClick={handleLogout}
-          className="group flex items-center gap-2 px-5 py-2.5 bg-slate-900 hover:bg-amber-500 border border-amber-500/30 hover:border-amber-600 text-amber-500 hover:text-slate-950 font-black uppercase text-[10px] tracking-[0.15em] rounded-xl transition-all duration-300"
+          className="group flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 border border-orange-500/30 text-slate-950 font-black uppercase text-[10px] tracking-[0.15em] rounded-2xl transition-all duration-300 hover:scale-[1.02] shadow-[0_15px_30px_rgba(249,115,22,0.25)]"
         >
           <LogOut size={14} />
           <span>Logout</span>

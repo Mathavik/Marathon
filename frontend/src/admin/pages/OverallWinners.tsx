@@ -243,7 +243,7 @@ const OverallWinners: React.FC = () => {
           <div className="bg-slate-900/40 backdrop-blur-md rounded-[3rem] border border-slate-800 p-20 text-center max-w-2xl mx-auto shadow-2xl">
             <div className="text-8xl mb-8 opacity-20">🏆</div>
             <h3 className="text-3xl font-black text-slate-200 mb-4 uppercase tracking-tighter">No Winners Data Yet</h3>
-            <p className="text-slate-500 mb-10 font-medium uppercase tracking-widest text-xs">Results will appear here once the competition concludes.</p>
+            <p className="text-slate-500 mb-10 font-medium uppercase tracking-widest text-xs">Results will appear here once the Marathon concludes.</p>
             <button
               onClick={fetchWinners}
               className="px-10 py-4 bg-white text-slate-950 rounded-2xl hover:bg-amber-500 transition-all duration-300 font-black text-xs uppercase tracking-[0.2em] shadow-xl active:scale-95"
