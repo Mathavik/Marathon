@@ -8,10 +8,10 @@ const AdminSidebar: React.FC = () => {
     "block py-3 px-4 rounded-lg transition-all duration-300 font-semibold mb-2 tracking-wide text-sm uppercase";
 
   const activeClass =
-    "bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/20";
+    "bg-gradient-to-r from-orange-500 to-orange-500/70 text-slate-950 shadow-[0_0_30px_rgba(249,115,22,0.35)]";
 
   const hoverClass =
-    "hover:bg-slate-800 text-slate-300 hover:text-amber-500";
+    "hover:bg-slate-800 text-slate-200 hover:text-orange-400";
 
   return (
     <>
@@ -37,14 +37,14 @@ const AdminSidebar: React.FC = () => {
         `}
       </style>
 
-      <div className="w-64 h-screen bg-slate-950 text-white flex flex-col border-r border-amber-500/20">
+      <div className="w-72 h-screen bg-[radial-gradient(circle_at_top_left,_rgba(249,115,22,0.15),_transparent_38%),_rgba(5,8,22,0.95)] text-white flex flex-col border-r border-orange-500/20 shadow-[8px_0_50px_rgba(0,0,0,0.35)]">
 
         {/* 🔝 Logo (fixed) */}
-        <div className="flex items-center justify-center p-5 border-b border-amber-500/30">
+        <div className="flex items-center justify-center p-6 border-b border-orange-500/20">
           <img
             src={logo}
             alt="Admin Logo"
-            className="h-14 w-auto object-contain"
+            className="h-16 w-auto object-contain"
           />
         </div>
 

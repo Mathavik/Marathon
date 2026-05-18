@@ -133,7 +133,7 @@ export default function Events() {
           <h1 className="text-3xl font-black text-white tracking-tight uppercase">
             Events <span className="text-amber-500">Management</span>
           </h1>
-          <p className="text-slate-500 text-sm mt-1 font-medium">Create and oversee all competition categories.</p>
+          <p className="text-slate-500 text-sm mt-1 font-medium">Create and oversee all Marathon event categories.</p>
         </div>
 
         <div className="flex w-full md:w-auto gap-3">
