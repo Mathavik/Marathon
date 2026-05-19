@@ -56,36 +56,38 @@ const AdminSidebar: React.FC = () => {
               Dashboard
             </NavLink>
 
- <NavLink to="/admin/adminherosection" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
+            <NavLink to="/admin/adminherosection" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
               hero section
             </NavLink>
             {/* <NavLink to="/admin/categories" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
               Categories
             </NavLink> */}
 
-    <NavLink to="/admin/registrations" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
+            <NavLink to="/admin/registrations" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
               Registrations
             </NavLink>
-                 {/* <NavLink to="/admin/participation-certificate" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
+            {/* <NavLink to="/admin/participation-certificate" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
               Participation Certificate
             </NavLink> */}
 
             <NavLink to="/admin/admingallery" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
               Gallery
             </NavLink>
-              <NavLink to="/admin/admineventhighlights" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
+            <NavLink to="/admin/admineventhighlights" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
               Event Highlights
             </NavLink>
 
 
-  <NavLink to="/admin/adminsponsors" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
+            <NavLink to="/admin/adminsponsors" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
               Sponsors
             </NavLink>
-           
 
-        
+            <NavLink to="/admin/marathon-category" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
+              Marathon Category
+            </NavLink>
 
-{/*        
+
+            {/*        
             <NavLink to="/admin/winners" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
               Winners
             </NavLink> */}
