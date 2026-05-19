@@ -16,7 +16,13 @@ import AdsDisplay from "./pages/AdsDisplay/AdsDisplay";
 import { ToastContainer } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 import ScrollToTop from "./components/ScrollToTop";
+<<<<<<< HEAD
 import PaymentPage from "./pages/Home/PaymentPreview";
+=======
+import HomeRegistration from "./pages/Home/HomeRegistration";
+import AdminGallery from "./pages/Gallery/AdminGallery";
+import AdminEventHighlights from "./pages/Gallery/AdminEventHighlights";
+>>>>>>> 6a68063075371655ae765e11a32581bb69c4eee8
 const AppContent = () => {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin");
@@ -38,9 +44,13 @@ const AppContent = () => {
           <Route path="/register" element={<StudentRegister />} />
           <Route path="/schedule" element={<Schedule />} />
           <Route path="/gallery" element={<Gallery/>}/>
-          <Route path="/contact" element={<Contact/>}/>
+          <Route path="/AdminGallery" element={<AdminGallery/>}/>
+                    <Route path="/AdminEventHighlight" element={<AdminEventHighlights/>}/>
+
+        <Route path="/contact" element={<Contact/>}/>
           <Route path="/ads" element={<AdsDisplay/>}/>
           <Route path="/about" element={<div className="min-h-screen bg-black text-white flex items-center justify-center"><h1 className="text-4xl font-bold">About City Marathon 2026</h1></div>} />
+          <Route path="/home-registration" element={<HomeRegistration/>}/>
 
         </Routes>
       </main>
