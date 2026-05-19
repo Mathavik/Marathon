@@ -8,13 +8,14 @@ return new class extends Migration
 {
     public function up(): void
     {
-       if (!Schema::hasTable('event_highlights')) {
+       if (!Schema::hasTable('sponsors')) {
 
-    Schema::create('event_highlights', function (Blueprint $table) {
+    Schema::create('sponsors', function (Blueprint $table) {
 
         $table->id();
         $table->string('title');
         $table->string('image');
+        $table->enum('status', ['active', 'inactive'])->default('active');
         $table->timestamps();
 
     });
@@ -24,6 +25,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('event_highlights');
+        Schema::dropIfExists('sponsors');
     }
 };
