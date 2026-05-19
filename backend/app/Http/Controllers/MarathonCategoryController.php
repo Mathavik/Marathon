@@ -19,7 +19,7 @@ class MarathonCategoryController extends Controller
     }
 
     // STORE / UPDATE DATA
-  public function store(Request $request)
+ public function store(Request $request)
 {
     $request->validate([
         'title' => 'required',
@@ -27,11 +27,16 @@ class MarathonCategoryController extends Controller
         'event_time' => 'required',
         'registration_fee' => 'required',
         'marathon_route' => 'required',
-        'image' => 'required|mimes:jpg,jpeg,png,avif,webp|max:2048'
+        'image' => 'nullable|mimes:jpg,jpeg,png,avif,webp|max:2048'
     ]);
 
-    $imagePath = null;
+    // OLD DATA
+    $category = MarathonCategory::first();
 
+    // DEFAULT OLD IMAGE
+    $imagePath = $category?->image;
+
+    // NEW IMAGE UPLOAD
     if ($request->hasFile('image')) {
 
         $image = $request->file('image');
@@ -47,18 +52,34 @@ class MarathonCategoryController extends Controller
         $imagePath = 'marathon-category/' . $imageName;
     }
 
-    $category = MarathonCategory::create([
-        'title' => $request->title,
-        'subtitle' => $request->subtitle,
-        'event_time' => $request->event_time,
-        'registration_fee' => $request->registration_fee,
-        'marathon_route' => $request->marathon_route,
-        'image' => $imagePath,
-    ]);
+    // UPDATE EXISTING
+    if ($category) {
+
+        $category->update([
+            'title' => $request->title,
+            'subtitle' => $request->subtitle,
+            'event_time' => $request->event_time,
+            'registration_fee' => $request->registration_fee,
+            'marathon_route' => $request->marathon_route,
+            'image' => $imagePath,
+        ]);
+
+    } else {
+
+        // CREATE NEW
+        $category = MarathonCategory::create([
+            'title' => $request->title,
+            'subtitle' => $request->subtitle,
+            'event_time' => $request->event_time,
+            'registration_fee' => $request->registration_fee,
+            'marathon_route' => $request->marathon_route,
+            'image' => $imagePath,
+        ]);
+    }
 
     return response()->json([
         'success' => true,
-        'message' => 'Marathon Category Added Successfully',
+        'message' => 'Marathon Category Saved Successfully',
         'data' => $category
     ]);
 }
