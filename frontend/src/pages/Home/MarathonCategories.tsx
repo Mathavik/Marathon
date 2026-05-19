@@ -1,58 +1,104 @@
-import React from 'react';
-import { Clock, Award } from 'lucide-react';
+import React from "react";
+import { Clock, Trophy, MapPin } from "lucide-react";
 
 const MarathonCategories = () => {
-  const categories = [
-    {
-      name: '3KM Fun Run',
-      price: '₹500',
-      time: 'Morning 7:00 AM',
-      icon: '🏃‍♂️',
-    },
-    {
-      name: '5KM Marathon',
-      price: '₹1000',
-      time: 'Morning 8:00 AM',
-      icon: '🏃‍♀️',
-    },
-    {
-      name: '10KM Marathon',
-      price: '₹1500',
-      time: 'Morning 9:00 AM',
-      icon: '🏃',
-    },
-    {
-      name: '21KM Half Marathon',
-      price: '₹2000',
-      time: 'Morning 10:00 AM',
-      icon: '🏃‍♂️',
-    },
-  ];
-
   return (
-    <section className="py-16 bg-gray-900 text-white">
+    <section className="py-20 bg-gradient-to-br from-black via-gray-900 to-orange-950 text-white overflow-hidden">
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-black text-center mb-12 uppercase tracking-wide">
-          Marathon Categories
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {categories.map((cat) => (
-            <div key={cat.name} className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300">
-              <div className="text-6xl mb-4">{cat.icon}</div>
-              <h3 className="text-2xl font-bold mb-2">{cat.name}</h3>
-              <div className="flex items-center gap-2 mb-2">
-                <Clock size={16} className="text-orange-400" />
-                <span className="text-gray-300">{cat.time}</span>
+        
+        {/* Heading */}
+        <div className="text-center mb-14">
+          <p className="text-orange-400 uppercase tracking-[4px] font-semibold mb-3">
+            Marathon Event
+          </p>
+
+          <h2 className="text-5xl md:text-6xl font-black uppercase leading-tight">
+            10KM Marathon
+          </h2>
+
+          <div className="w-32 h-1 bg-orange-500 mx-auto mt-5 rounded-full"></div>
+        </div>
+
+        {/* Card */}
+        <div className="max-w-5xl mx-auto">
+          <div className="relative bg-white/10 border border-white/20 backdrop-blur-xl rounded-[35px] overflow-hidden shadow-[0_20px_80px_rgba(255,115,0,0.25)]">
+
+            {/* Background Glow */}
+            <div className="absolute top-0 right-0 w-72 h-72 bg-orange-500/20 blur-3xl rounded-full"></div>
+
+            <div className="relative z-10 grid md:grid-cols-2 items-center">
+              
+              {/* Left Side */}
+              <div className="p-10 md:p-14">
+                <div className="text-[90px] mb-6">🏃</div>
+
+                <h3 className="text-4xl font-extrabold mb-5">
+                  Run Beyond Limits
+                </h3>
+
+                <p className="text-gray-300 leading-relaxed mb-8">
+                  Join the thrilling 10KM Marathon and challenge yourself with
+                  energy, passion, and determination. Experience the ultimate
+                  running atmosphere with exciting moments and unforgettable
+                  memories.
+                </p>
+
+                <button className="bg-orange-500 hover:bg-orange-600 transition-all duration-300 px-8 py-4 rounded-full text-lg font-bold shadow-lg hover:scale-105">
+                  Register Now
+                </button>
               </div>
-              <div className="flex items-center gap-2 mb-4">
-                <Award size={16} className="text-orange-400" />
-                <span className="text-orange-400 font-bold">{cat.price}</span>
+
+              {/* Right Side */}
+              <div className="bg-black/30 h-full p-10 md:p-14 flex flex-col justify-center gap-8">
+                
+                <div className="flex items-center gap-5">
+                  <div className="bg-orange-500/20 p-4 rounded-2xl">
+                    <Clock className="text-orange-400" size={28} />
+                  </div>
+
+                  <div>
+                    <p className="text-gray-400 text-sm uppercase">
+                      Event Time
+                    </p>
+                    <h4 className="text-2xl font-bold">
+                      Morning 9:00 AM
+                    </h4>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-5">
+                  <div className="bg-orange-500/20 p-4 rounded-2xl">
+                    <Trophy className="text-orange-400" size={28} />
+                  </div>
+
+                  <div>
+                    <p className="text-gray-400 text-sm uppercase">
+                      Registration Fee
+                    </p>
+                    <h4 className="text-2xl font-bold text-orange-400">
+                      ₹1500
+                    </h4>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-5">
+                  <div className="bg-orange-500/20 p-4 rounded-2xl">
+                    <MapPin className="text-orange-400" size={28} />
+                  </div>
+
+                  <div>
+                    <p className="text-gray-400 text-sm uppercase">
+                      Marathon Route
+                    </p>
+                    <h4 className="text-2xl font-bold">
+                      City Central Track
+                    </h4>
+                  </div>
+                </div>
+
               </div>
-              <button className="w-full bg-orange-500 px-4 py-2 rounded-full font-semibold text-white hover:bg-orange-600 transition">
-                Register
-              </button>
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </section>
