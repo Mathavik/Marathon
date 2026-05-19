@@ -18,8 +18,8 @@ use App\Http\Controllers\AdvertisementController;
 use App\Http\Controllers\Admin\CertificateController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventHighlightController;
-
-
+use App\Http\Controllers\HeroSectionController;
+use App\Http\Controllers\SponsorController;
 Route::get('/schools', [StudentController::class, 'getSchools']);
 
 Route::middleware('auth.custom')->group(function () {
@@ -158,7 +158,7 @@ Route::get('/events-by-school/{school}', [EventRegistrationsController::class, '
 Route::get('/students-by-event/{event}', [EventRegistrationsController::class, 'getStudentsByEvent']);
 Route::get('/download-certificate/{event}/{school}', [EventRegistrationsController::class, 'downloadCertificate']);
 
-use App\Http\Controllers\HeroSectionController;
+
 
 Route::get('/hero-section', [HeroSectionController::class, 'index']);
 Route::post('/hero-section', [HeroSectionController::class, 'store']);
@@ -168,3 +168,15 @@ Route::get('/event-highlights', [EventHighlightController::class, 'index']);
 
 Route::post('/event-highlights', [EventHighlightController::class, 'store']);
 
+
+Route::get('/sponsors', [SponsorController::class, 'index']);
+
+Route::get('/admin/sponsors', [SponsorController::class, 'adminIndex']);
+
+Route::post('/admin/sponsors', [SponsorController::class, 'store']);
+
+Route::post('/admin/sponsors/{id}', [SponsorController::class, 'update']);
+
+Route::delete('/admin/sponsors/{id}', [SponsorController::class, 'destroy']);
+
+Route::patch('/admin/sponsors/status/{id}', [SponsorController::class, 'status']);
