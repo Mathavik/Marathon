@@ -18,6 +18,7 @@ import "react-toastify/dist/ReactToastify.css";
 import ScrollToTop from "./components/ScrollToTop";
 import HomeRegistration from "./pages/Home/HomeRegistration";
 import AdminGallery from "./pages/Gallery/AdminGallery";
+import AdminEventHighlights from "./pages/Gallery/AdminEventHighlights";
 const AppContent = () => {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin");
@@ -39,7 +40,9 @@ const AppContent = () => {
           <Route path="/schedule" element={<Schedule />} />
           <Route path="/gallery" element={<Gallery/>}/>
           <Route path="/AdminGallery" element={<AdminGallery/>}/>
-          <Route path="/contact" element={<Contact/>}/>
+                    <Route path="/AdminEventHighlight" element={<AdminEventHighlights/>}/>
+
+        <Route path="/contact" element={<Contact/>}/>
           <Route path="/ads" element={<AdsDisplay/>}/>
           <Route path="/about" element={<div className="min-h-screen bg-black text-white flex items-center justify-center"><h1 className="text-4xl font-bold">About City Marathon 2026</h1></div>} />
           <Route path="/home-registration" element={<HomeRegistration/>}/>

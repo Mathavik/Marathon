@@ -17,6 +17,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AdvertisementController;
 use App\Http\Controllers\Admin\CertificateController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EventHighlightController;
 
 
 Route::get('/schools', [StudentController::class, 'getSchools']);
@@ -161,3 +162,9 @@ use App\Http\Controllers\HeroSectionController;
 
 Route::get('/hero-section', [HeroSectionController::class, 'index']);
 Route::post('/hero-section', [HeroSectionController::class, 'store']);
+
+
+Route::get('/event-highlights', [EventHighlightController::class, 'index']);
+
+Route::post('/event-highlights', [EventHighlightController::class, 'store']);
+
