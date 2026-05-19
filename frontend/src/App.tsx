@@ -16,13 +16,10 @@ import AdsDisplay from "./pages/AdsDisplay/AdsDisplay";
 import { ToastContainer } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 import ScrollToTop from "./components/ScrollToTop";
-<<<<<<< HEAD
 import PaymentPage from "./pages/Home/PaymentPreview";
-=======
 import HomeRegistration from "./pages/Home/HomeRegistration";
 import AdminGallery from "./pages/Gallery/AdminGallery";
 import AdminEventHighlights from "./pages/Gallery/AdminEventHighlights";
->>>>>>> 6a68063075371655ae765e11a32581bb69c4eee8
 const AppContent = () => {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin");
