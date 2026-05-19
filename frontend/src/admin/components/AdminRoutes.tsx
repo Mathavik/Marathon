@@ -18,6 +18,7 @@ import ParticipationCertificate from "../pages/ParticipationCertificate";
 import AdminHeroSection from "../pages/AdminHeroSection";
 import AdminSponsors from "../pages/AdminSponsors";
 import AdminEventHighlights from "../pages/AdminEventHighlights";
+import AdminMarathonCategory from "../../pages/Home/AdminMarathonCategory";
 const AdminRoutes: React.FC = () => {
   return (
     <Routes>
@@ -51,6 +52,8 @@ const AdminRoutes: React.FC = () => {
                <Route path="admingallery" element={<AdminGallery/>}/>
                <Route path="admineventhighlights" element={<AdminEventHighlights/>}/>
                               <Route path="adminherosection" element={<AdminHeroSection/>}/>
+               <Route path="marathon-category" element={<AdminMarathonCategory/>}/>
+
 
             </Routes>
         </AdminLayout>

@@ -16,10 +16,11 @@ import AdsDisplay from "./pages/AdsDisplay/AdsDisplay";
 import { ToastContainer } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 import ScrollToTop from "./components/ScrollToTop";
-import PaymentPage from "./pages/Home/PaymentPreview";
+// import PaymentPage from "./pages/Home/PaymentPreview";
 import HomeRegistration from "./pages/Home/HomeRegistration";
 import AdminGallery from "./pages/Gallery/AdminGallery";
 import AdminEventHighlights from "./admin/pages/AdminEventHighlights";
+import PaymentPage from "./pages/Home/PaymentPreview";
 const AppContent = () => {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin");
@@ -37,7 +38,14 @@ const AppContent = () => {
           <Route path="/categories" element={<Categories />} />
           <Route path="/events/:id" element={<EventsByCategory />} />
           {/* <Route path="/payment" element={<PaymentPage/>} /> */}
-          <Route path="/paymentPage" element={<PaymentPage />} />
+          <Route
+  path="/paymentPage"
+  element={
+    localStorage.getItem("token")
+      ? <PaymentPage />
+      : null
+  }
+/>
           <Route path="/register" element={<StudentRegister />} />
           <Route path="/schedule" element={<Schedule />} />
           <Route path="/gallery" element={<Gallery/>}/>

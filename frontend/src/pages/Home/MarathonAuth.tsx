@@ -1,22 +1,26 @@
 import React, { useState } from "react";
 import axiosInstance from "../../axiosInstance";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import PaymentPage from "../Home/PaymentPreview";
 
 const MarathonAuth = () => {
 
   const [showLogin, setShowLogin] = useState(false);
 
-  const navigate = useNavigate();
+  const [showPayment, setShowPayment] = useState(false);
 
-  // REGISTER
+  // =========================
+  // REGISTER STATE
+  // =========================
   const [register, setRegister] = useState({
     name: "",
     email: "",
     password: ""
   });
 
-  // LOGIN
+  // =========================
+  // LOGIN STATE
+  // =========================
   const [login, setLogin] = useState({
     email: "",
     password: ""
@@ -42,6 +46,7 @@ const MarathonAuth = () => {
         text: "Now login to continue"
       });
 
+      // OPEN LOGIN MODAL
       setShowLogin(true);
 
     } catch (err: any) {
@@ -70,16 +75,14 @@ const MarathonAuth = () => {
         login
       );
 
-      console.log(res.data);
-
-      // SUCCESS MESSAGE
+      // SUCCESS ALERT
       Swal.fire({
         icon: "success",
         title: "Login Success 🚀"
       });
 
       // =========================
-      // SAVE TO LOCAL STORAGE
+      // SAVE USER DATA
       // =========================
       localStorage.setItem(
         "token",
@@ -109,8 +112,10 @@ const MarathonAuth = () => {
       // CLOSE LOGIN MODAL
       setShowLogin(false);
 
-      // GO TO PAYMENT PAGE
-      navigate("/payment");
+      // SHOW PAYMENT PAGE
+     setTimeout(() => {
+  setShowPayment(true);
+}, 500);
 
     } catch (err: any) {
 
@@ -124,6 +129,29 @@ const MarathonAuth = () => {
       });
     }
   };
+
+  // =========================
+  // SHOW PAYMENT PAGE
+  // =========================
+  {showPayment && (
+  <div className="fixed inset-0 bg-black/70 z-[999] flex items-center justify-center p-4 overflow-y-auto">
+    
+    <div className="relative w-full max-w-5xl">
+
+      {/* CLOSE BUTTON */}
+      <button
+        onClick={() => setShowPayment(false)}
+        className="absolute -top-3 -right-3 bg-red-500 text-white w-10 h-10 rounded-full text-xl font-bold z-50"
+      >
+        ✕
+      </button>
+
+      <PaymentPage />
+
+    </div>
+
+  </div>
+)}
 
   return (
 
@@ -193,11 +221,11 @@ const MarathonAuth = () => {
       {/* LOGIN MODAL */}
       {showLogin && (
 
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
           <div className="bg-white p-6 rounded-xl w-96 relative">
 
-            {/* CLOSE */}
+            {/* CLOSE BUTTON */}
             <button
               onClick={() => setShowLogin(false)}
               className="absolute top-2 right-3 text-xl"
