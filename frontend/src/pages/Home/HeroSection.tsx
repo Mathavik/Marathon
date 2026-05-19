@@ -10,7 +10,6 @@ interface HeroData {
   location: string;
   background_image: string;
   primary_button: string;
-  secondary_button: string;
 }
 const scrollToRegistration = () => {
   const section = document.getElementById("home-registration");
@@ -79,12 +78,15 @@ const HeroSection = () => {
     <div className="relative min-h-screen bg-black text-white overflow-hidden">
       
       {/* Background Image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: `url(${heroData?.background_image})`,
-        }}
-      ></div>
+     {/* Background Image */}
+<div
+  className="absolute inset-0 bg-cover bg-center"
+  style={{
+    backgroundImage: heroData?.background_image
+      ? `url(${heroData.background_image})`
+      : "none",
+  }}
+></div>
 
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/50"></div>

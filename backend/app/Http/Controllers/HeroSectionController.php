@@ -14,10 +14,31 @@ class HeroSectionController extends Controller
     {
         $hero = HeroSection::latest()->first();
 
+        if (!$hero) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No hero section found',
+                'data' => null
+            ], 404);
+        }
+
+        $backgroundImageUrl = null;
+        if ($hero->background_image) {
+            $backgroundImageUrl = url('storage/' . $hero->background_image);
+        }
+
         return response()->json([
             'status' => true,
             'message' => 'Hero section fetched successfully',
-            'data' => $hero
+            'data' => [
+                'id' => $hero->id,
+                'title' => $hero->title,
+                'subtitle' => $hero->subtitle,
+                'event_date' => $hero->event_date->toIso8601String(),
+                'location' => $hero->location,
+                'background_image' => $backgroundImageUrl,
+                'primary_button' => $hero->primary_button,
+            ]
         ]);
     }
 
@@ -31,24 +52,46 @@ class HeroSectionController extends Controller
             'subtitle' => 'required',
             'event_date' => 'required|date',
             'location' => 'required',
-            'background_image' => 'required',
-            'primary_button' => 'required'
+            'primary_button' => 'required',
+            'background_image' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
-        $hero = HeroSection::create($request->all());
+        // Upload Image
+        $imagePath = null;
 
-      return response()->json([
-    'status' => true,
-    'message' => 'Hero section fetched successfully',
-    'data' => [
-        'id' => $hero->id,
-        'title' => $hero->title,
-        'subtitle' => $hero->subtitle,
-        'event_date' => $hero->event_date->toIso8601String(),
-        'location' => $hero->location,
-        'background_image' => $hero->background_image,
-        'primary_button' => $hero->primary_button
-    ]
-]);
+        if ($request->hasFile('background_image')) {
+            $imagePath = $request
+                ->file('background_image')
+                ->store('hero', 'public');
+        }
+
+        // Save Data
+        $hero = HeroSection::create([
+            'title' => $request->title,
+            'subtitle' => $request->subtitle,
+            'event_date' => $request->event_date,
+            'location' => $request->location,
+            'background_image' => $imagePath,
+            'primary_button' => $request->primary_button,
+        ]);
+
+        $backgroundImageUrl = null;
+        if ($hero->background_image) {
+            $backgroundImageUrl = url('storage/' . $hero->background_image);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Hero section created successfully',
+            'data' => [
+                'id' => $hero->id,
+                'title' => $hero->title,
+                'subtitle' => $hero->subtitle,
+                'event_date' => $hero->event_date->toIso8601String(),
+                'location' => $hero->location,
+                'background_image' => $backgroundImageUrl,
+                'primary_button' => $hero->primary_button,
+            ]
+        ]);
     }
 }
