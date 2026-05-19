@@ -4,9 +4,8 @@ import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin, Footprints 
 const Footer = () => {
   return (
     <footer className="bg-black text-gray-400 pt-16 border-t border-gray-800">
-      <div className="container mx-auto px-6 pb-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          
+<div className="max-w-7xl mx-auto px-6 lg:px-10 pb-12">
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 justify-between">          
           {/* Brand Info */}
           <div className="space-y-6">
             <div className="flex items-center gap-2">
@@ -63,8 +62,7 @@ const Footer = () => {
 
       {/* Copyright Bar */}
       <div className="border-t border-gray-800 py-8 bg-black/50">
-        <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-[11px] uppercase tracking-[0.2em] font-bold">
-          <p>© 2026 City Marathon 2026. All Rights Reserved.</p>
+<div className="max-w-7xl mx-auto px-6 lg:px-10 flex flex-col md:flex-row justify-between items-center text-[11px] uppercase tracking-[0.2em] font-bold">          <p>© 2026 City Marathon 2026. All Rights Reserved.</p>
           <div className="flex space-x-8 mt-4 md:mt-0">
             <a href="#" className="hover:text-white">Privacy</a>
             <a href="#" className="hover:text-white">Terms</a>
