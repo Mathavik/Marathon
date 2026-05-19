@@ -8,14 +8,15 @@ import StudentRegister from "./pages/StudentRegister";
 import Login from "./components/Login";
 import EventsByCategory from "./pages/CategoriesEvents.tsx/EventsByCategory";
 import Home from "./pages/Home/home";
-import PaymentPage from "./pages/Home/PaymentPage";
+// import PaymentPage from "./pages/Home/PaymentPage";
 import Schedule from "./pages/Schedule/Schedule";
 import Gallery from "./pages/Gallery/Gallery";
 import Contact from "./pages/Contact/Contact";
 import AdsDisplay from "./pages/AdsDisplay/AdsDisplay";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 import ScrollToTop from "./components/ScrollToTop";
+import PaymentPage from "./pages/Home/PaymentPreview";
 const AppContent = () => {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin");
@@ -32,7 +33,8 @@ const AppContent = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/events/:id" element={<EventsByCategory />} />
-          <Route path="/payment" element={<PaymentPage/>} />
+          {/* <Route path="/payment" element={<PaymentPage/>} /> */}
+          <Route path="/paymentPage" element={<PaymentPage />} />
           <Route path="/register" element={<StudentRegister />} />
           <Route path="/schedule" element={<Schedule />} />
           <Route path="/gallery" element={<Gallery/>}/>
