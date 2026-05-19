@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axiosInstance from "../../axiosInstance";
 import Swal from "sweetalert2";
+import PaymentPage from "./PaymentPreview";
 
 
 
@@ -23,6 +24,7 @@ const MarathonRegister = () => {
   });
 
   const [showLogin, setShowLogin] = useState(false);
+  const [showPayment, setShowPayment] = useState(false);
 
   const [login, setLogin] = useState({
     email: "",
@@ -89,6 +91,10 @@ const MarathonRegister = () => {
       }
 
       setShowLogin(false);
+      // Show payment modal after successful login
+      setTimeout(() => {
+        setShowPayment(true);
+      }, 500);
 
     } catch (err: any) {
 
@@ -390,6 +396,23 @@ const MarathonRegister = () => {
 
         </div>
 
+      )}
+
+      {/* PAYMENT MODAL (shown after login) */}
+      {showPayment && (
+        <div className="fixed inset-0 bg-black/70 z-[999] flex items-center justify-center p-4 overflow-y-auto">
+          <div className="relative w-full max-w-5xl">
+            <button
+              onClick={() => setShowPayment(false)}
+              className="absolute -top-3 -right-3 bg-red-500 text-white w-10 h-10 rounded-full text-xl font-bold z-50"
+            >
+              ✕
+            </button>
+
+            <PaymentPage />
+
+          </div>
+        </div>
       )}
 
       {/* COMMON INPUT STYLE */}

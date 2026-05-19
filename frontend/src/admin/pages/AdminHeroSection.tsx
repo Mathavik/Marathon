@@ -22,7 +22,7 @@ const AdminHeroSection = () => {
     primary_button: "",
   });
 
-  // Fetch Existing Data
+  // FETCH HERO DATA
   useEffect(() => {
     fetchHeroSection();
   }, []);
@@ -34,6 +34,7 @@ const AdminHeroSection = () => {
       );
 
       if (response.data.data) {
+
         const hero = response.data.data;
 
         setFormData({
@@ -47,28 +48,33 @@ const AdminHeroSection = () => {
           primary_button: hero.primary_button || "",
         });
 
+        // IMAGE PREVIEW
         setPreviewImage(hero.background_image || "");
       }
+
     } catch (error) {
       console.log(error);
     }
   };
 
-  // Handle Text Inputs
+  // TEXT INPUT CHANGE
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
+
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
 
-  // Handle Image Upload
+  // IMAGE CHANGE
   const handleImageChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
+
     if (e.target.files && e.target.files[0]) {
+
       const file = e.target.files[0];
 
       setFormData({
@@ -76,26 +82,38 @@ const AdminHeroSection = () => {
         background_image: file,
       });
 
-      setPreviewImage(URL.createObjectURL(file));
+      // LOCAL PREVIEW
+      setPreviewImage(
+        URL.createObjectURL(file)
+      );
     }
   };
 
-  // Submit Form
+  // SUBMIT FORM
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>
   ) => {
+
     e.preventDefault();
 
     try {
+
       const data = new FormData();
 
       data.append("title", formData.title);
       data.append("subtitle", formData.subtitle);
       data.append("event_date", formData.event_date);
       data.append("location", formData.location);
-      data.append("primary_button", formData.primary_button);
+      data.append(
+        "primary_button",
+        formData.primary_button
+      );
 
-      if (formData.background_image instanceof File) {
+      // IMAGE
+      if (
+        formData.background_image instanceof File
+      ) {
+
         data.append(
           "background_image",
           formData.background_image
@@ -107,14 +125,22 @@ const AdminHeroSection = () => {
         data,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type":
+              "multipart/form-data",
           },
         }
       );
 
-      alert("Hero Section Updated Successfully");
+      alert(
+        "Hero Section Saved Successfully"
+      );
+
+      fetchHeroSection();
+
     } catch (error) {
+
       console.log(error);
+
       alert("Something went wrong");
     }
   };
@@ -131,7 +157,8 @@ const AdminHeroSection = () => {
           onSubmit={handleSubmit}
           className="space-y-6 text-black"
         >
-          {/* Title */}
+
+          {/* TITLE */}
           <div>
             <label className="block mb-2 font-semibold">
               Title
@@ -146,7 +173,7 @@ const AdminHeroSection = () => {
             />
           </div>
 
-          {/* Subtitle */}
+          {/* SUBTITLE */}
           <div>
             <label className="block mb-2 font-semibold">
               Subtitle
@@ -161,7 +188,7 @@ const AdminHeroSection = () => {
             />
           </div>
 
-          {/* Event Date */}
+          {/* EVENT DATE */}
           <div>
             <label className="block mb-2 font-semibold">
               Event Date
@@ -176,7 +203,7 @@ const AdminHeroSection = () => {
             />
           </div>
 
-          {/* Location */}
+          {/* LOCATION */}
           <div>
             <label className="block mb-2 font-semibold">
               Location
@@ -191,7 +218,7 @@ const AdminHeroSection = () => {
             />
           </div>
 
-          {/* Image Upload */}
+          {/* IMAGE */}
           <div>
             <label className="block mb-2 font-semibold">
               Background Image
@@ -204,22 +231,21 @@ const AdminHeroSection = () => {
               className="w-full border rounded-xl p-4"
             />
 
+            {/* IMAGE PREVIEW */}
             {previewImage && (
               <div className="mt-4 border-2 border-dashed border-orange-300 rounded-2xl p-4 bg-orange-50">
+
                 <img
                   src={previewImage}
                   alt="Preview"
                   className="w-full h-80 object-cover rounded-xl"
-                  onError={(e) => {
-                    console.error("Image failed to load:", previewImage);
-                    (e.target as HTMLImageElement).style.display = "none";
-                  }}
                 />
+
               </div>
             )}
           </div>
 
-          {/* Primary Button */}
+          {/* BUTTON */}
           <div>
             <label className="block mb-2 font-semibold">
               Primary Button
@@ -234,13 +260,14 @@ const AdminHeroSection = () => {
             />
           </div>
 
-          {/* Submit */}
+          {/* SUBMIT */}
           <button
             type="submit"
             className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 rounded-xl text-lg transition-all duration-300"
           >
             Save Hero Section
           </button>
+
         </form>
       </div>
     </div>
