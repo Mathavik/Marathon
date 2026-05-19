@@ -31,16 +31,6 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-white font-bold mb-6 uppercase tracking-widest text-sm">Quick Links</h3>
-            <ul className="space-y-4 text-sm font-medium">
-              {['Home', 'About', 'Events', 'Register', 'Contact'].map(item => (
-                <li key={item} className="hover:text-white cursor-pointer transition-colors">• {item}</li>
-              ))}
-            </ul>
-          </div>
-
           {/* Contact */}
           <div>
             <h3 className="text-white font-bold mb-6 uppercase tracking-widest text-sm">Contact</h3>
