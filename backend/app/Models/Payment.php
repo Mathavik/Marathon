@@ -9,18 +9,24 @@ class Payment extends Model
 {
     use HasFactory;
 
-  protected $fillable = [
-    'payment_id',
-    'payment_type',
-    'amount',
-    'payment_status',
-    'payment_date',
-    'transaction_id',
-    'event_student_id'
-];
+    protected $fillable = [
 
-    public function eventRegistration()
-    {
-        return $this->belongsTo(EventRegistration::class, 'event_student_id');
-    }
+        'event_student_id',
+
+        'order_id',
+
+        'payment_id',
+
+        'signature',
+
+        'amount',
+
+        'payment_status',
+
+        'payment_type',
+
+        'transaction_id',
+
+        'payment_date'
+    ];
 }

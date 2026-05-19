@@ -3,80 +3,32 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\EventController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\AdminAuthController;
 
-use App\Http\Controllers\StudentController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\EventRegistrationsController;
-use App\Http\Controllers\TeamController;
 use App\Http\Controllers\PaymentController;
 
+<<<<<<< HEAD
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MarathonRegistrationController;
+=======
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AdvertisementController;
 use App\Http\Controllers\Admin\CertificateController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventHighlightController;
+>>>>>>> 6a68063075371655ae765e11a32581bb69c4eee8
 
+// REGISTER
+Route::post('/register', [MarathonRegistrationController::class, 'store']);
+Route::post('/marathon/register', [MarathonRegistrationController::class, 'store']);
 
-Route::get('/schools', [StudentController::class, 'getSchools']);
-
-Route::middleware('auth.custom')->group(function () {
-    Route::get('/categories', function (Request $request) {
-        return "Protected data";
-    });
-});
-use Illuminate\Http\Request; 
-Route::middleware('auth.custom')->get('/me', function (Request $request) {
-    $token = $request->cookie('token');
-
-    if (!$token) {
-        return response()->json(['error' => 'Unauthenticated'], 401);
-    }
-
-    $student = \App\Models\Student::where('api_token', $token)->first();
-
-    if (!$student) {
-        return response()->json(['error' => 'Invalid token'], 401);
-    }
-
-    return $student;
-});
-// routes/api.php
-Route::get('/admin/notifications', function () {
-    $admin = \App\Models\Admin::first(); // or auth admin
-    return response()->json($admin->notifications);
-});
-
-Route::get('/admin/notifications/unread-count', function () {
-    $admin = \App\Models\Admin::first();
-    return response()->json([
-        'count' => $admin->unreadNotifications->count()
-    ]);
-});
-
-// use Illuminate\Support\Facades\Route;
-use App\Models\Admin;
-
-Route::post('/admin/notifications/read', function () {
-    $admin = Admin::first(); // later replace with auth()
-
-    $admin->unreadNotifications->markAsRead();
-
-    return response()->json([
-        'message' => 'Marked as read'
-    ]);
-});
-
-// Get all events for a student
-Route::get('/student/{id}/events', [EventRegistrationsController::class, 'showEvents']);
-
-// Register student for an event
-Route::post('/event/register', [EventRegistrationsController::class, 'registerEvent']);
-
+// LOGIN
 Route::post('/login', [AuthController::class, 'login']);
+
+// LOGOUT
 Route::post('/logout', [AuthController::class, 'logout']);
+<<<<<<< HEAD
+=======
 Route::post('/students', [StudentController::class, 'store']);
 // Route::post('/event-register', [EventController::class, 'store']);
 
@@ -137,17 +89,18 @@ Route::delete('/ads/{id}', [AdvertisementController::class, 'destroy']); // dele
 Route::get('/overall-winners', [EventController::class, 'overallWinners']);
 Route::match(['post', 'put'], '/ads/{id}', [AdvertisementController::class, 'update']);
 // Route::post('/ads/{id}', [AdvertisementController::class, 'update']);
+>>>>>>> 6a68063075371655ae765e11a32581bb69c4eee8
 
 
 
 
+Route::post('/payment/create-order', [PaymentController::class, 'createOrder']);
 
-Route::get('/admin/certificate', [CertificateController::class, 'index']);
-Route::post('/admin/certificate', [CertificateController::class, 'store']);
-Route::post('/admin/certificate/update', [CertificateController::class, 'update']);
-Route::delete('/admin/certificate/delete', [CertificateController::class, 'destroy']);
-Route::get('/admin/notification-data', [StudentController::class, 'getNotificationRegistrations']);
+Route::post('/payment/verify', [PaymentController::class, 'verifyPayment']);
 
+<<<<<<< HEAD
+Route::post('/register-event', [EventController::class, 'registerEvent']);
+=======
 
 Route::get('/chart-data', [DashboardController::class, 'getChartData']);
 Route::get('/dashboard-counts', [DashboardController::class, 'getCounts']);
@@ -168,3 +121,4 @@ Route::get('/event-highlights', [EventHighlightController::class, 'index']);
 
 Route::post('/event-highlights', [EventHighlightController::class, 'store']);
 
+>>>>>>> 6a68063075371655ae765e11a32581bb69c4eee8
