@@ -3,124 +3,165 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Razorpay\Api\Api;
 use App\Models\Payment;
-use App\Models\EventRegistration;
-use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
-    public function index()
+    // =========================
+    // CREATE ORDER
+    // =========================
+    public function createOrder(Request $request)
     {
-        $payments = Payment::all();
-        return response()->json($payments, 200);
-    }
+        try {
 
-   public function store(Request $request)
-{
-    $request->validate([
-        'event_student_id' => 'required|exists:event_student,id',
-        'payment_id' => 'required|string|unique:payments,payment_id',
-        'payment_type' => 'required|string',
-        'amount' => 'required|numeric',
-        'payment_status' => 'required|string',
-        'payment_date' => 'nullable|date',
-        'transaction_id' => 'nullable|string',
-    ]);
+            $request->validate([
 
-    $registration = DB::table('event_student')
-        ->where('id', $request->event_student_id)
-        ->first();
+                'amount' => 'required',
 
-    if (!$registration) {
-        return response()->json([
-            'message' => 'Registration not found'
-        ], 404);
-    }
-
-    if (!empty($registration->payment_ref_id)) {
-        return response()->json([
-            'message' => 'Payment already completed for this registration'
-        ], 400);
-    }
-
-    DB::beginTransaction();
-
-    try {
-        $payment = Payment::create([
-            'event_student_id' => $request->event_student_id,
-            'payment_id' => $request->payment_id,
-            'payment_type' => $request->payment_type,
-            'amount' => $request->amount,
-            'payment_status' => $request->payment_status,
-            'payment_date' => $request->payment_date ?? now(),
-            'transaction_id' => $request->transaction_id,
-        ]);
-
-        DB::table('event_student')
-            ->where('id', $request->event_student_id)
-            ->update([
-                'payment_ref_id' => $payment->id,
-                'updated_at' => now()
+                'event_student_id' => 'required'
             ]);
 
-        DB::commit();
+            $api = new Api(
 
-        return response()->json([
-            'message' => 'Payment created successfully',
-            'payment' => $payment
-        ], 201);
+                env('RAZORPAY_KEY'),
 
-    } catch (\Exception $e) {
-        DB::rollBack();
+                env('RAZORPAY_SECRET')
+            );
 
-        return response()->json([
-            'message' => 'Payment failed',
-            'error' => $e->getMessage()
-        ], 500);
+            // CREATE RAZORPAY ORDER
+            $order = $api->order->create([
+
+                'receipt' => 'receipt_' . time(),
+
+                'amount' => $request->amount * 100,
+
+                'currency' => 'INR'
+            ]);
+
+            // SEND ONLY NEEDED DATA
+            $orderData = [
+
+                'id' => $order['id'],
+
+                'amount' => $order['amount'],
+
+                'currency' => $order['currency']
+            ];
+
+            // STORE IN DATABASE
+            $payment = Payment::create([
+
+                'event_student_id' =>
+                    $request->event_student_id,
+
+                'order_id' => $order['id'],
+
+                'amount' => $request->amount,
+
+                'payment_status' => 'created'
+            ]);
+
+            return response()->json([
+
+                'success' => true,
+
+                'order' => $orderData,
+
+                'payment' => $payment
+            ]);
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+
+                'success' => false,
+
+                'message' => $e->getMessage()
+
+            ], 500);
+        }
     }
-}
 
-    public function show($id)
+    // =========================
+    // VERIFY PAYMENT
+    // =========================
+    public function verifyPayment(Request $request)
     {
-        $payment = Payment::findOrFail($id);
-        return response()->json($payment, 200);
-    }
+        try {
 
-    public function update(Request $request, $id)
-    {
-        $payment = Payment::findOrFail($id);
+            $request->validate([
 
-        $request->validate([
-            'payment_id' => 'sometimes|string|unique:payments,payment_id,' . $id,
-            'payment_type' => 'sometimes|string',
-            'amount' => 'sometimes|numeric',
-            'payment_status' => 'sometimes|string',
-            'payment_date' => 'nullable|date',
-            'transaction_id' => 'nullable|string',
-        ]);
+                'razorpay_order_id' => 'required',
 
-        $payment->update($request->only([
-            'payment_id',
-            'payment_type',
-            'amount',
-            'payment_status',
-            'payment_date',
-            'transaction_id'
-        ]));
+                'razorpay_payment_id' => 'required',
 
-        return response()->json([
-            'message' => 'Payment updated successfully',
-            'data' => $payment
-        ], 200);
-    }
+                'razorpay_signature' => 'required'
+            ]);
 
-    public function destroy($id)
-    {
-        $payment = Payment::findOrFail($id);
-        $payment->delete();
+            $api = new Api(
 
-        return response()->json([
-            'message' => 'Payment deleted successfully'
-        ], 200);
+                env('RAZORPAY_KEY'),
+
+                env('RAZORPAY_SECRET')
+            );
+
+            $attributes = [
+
+                'razorpay_order_id' =>
+                    $request->razorpay_order_id,
+
+                'razorpay_payment_id' =>
+                    $request->razorpay_payment_id,
+
+                'razorpay_signature' =>
+                    $request->razorpay_signature,
+            ];
+
+            // VERIFY SIGNATURE
+            $api->utility->verifyPaymentSignature(
+                $attributes
+            );
+
+            // UPDATE DATABASE
+            Payment::where(
+                'order_id',
+                $request->razorpay_order_id
+            )->update([
+
+                'payment_id' =>
+                    $request->razorpay_payment_id,
+
+                'signature' =>
+                    $request->razorpay_signature,
+
+                'payment_status' => 'paid',
+
+                'payment_type' => 'Razorpay',
+
+                'transaction_id' =>
+                    $request->razorpay_payment_id,
+
+                'payment_date' => now()
+            ]);
+
+            return response()->json([
+
+                'success' => true,
+
+                'message' =>
+                    'Payment Successful'
+            ]);
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+
+                'success' => false,
+
+                'message' => $e->getMessage()
+
+            ], 500);
+        }
     }
 }

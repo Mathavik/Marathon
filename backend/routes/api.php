@@ -3,15 +3,11 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\EventController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\AdminAuthController;
 
-use App\Http\Controllers\StudentController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\EventRegistrationsController;
-use App\Http\Controllers\TeamController;
 use App\Http\Controllers\PaymentController;
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MarathonRegistrationController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AdvertisementController;
@@ -75,7 +71,15 @@ Route::get('/student/{id}/events', [EventRegistrationsController::class, 'showEv
 // Register student for an event
 Route::post('/event/register', [EventRegistrationsController::class, 'registerEvent']);
 
+
+// REGISTER
+Route::post('/register', [MarathonRegistrationController::class, 'store']);
+Route::post('/marathon/register', [MarathonRegistrationController::class, 'store']);
+
+// LOGIN
 Route::post('/login', [AuthController::class, 'login']);
+
+// LOGOUT
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/students', [StudentController::class, 'store']);
 // Route::post('/event-register', [EventController::class, 'store']);
@@ -141,13 +145,11 @@ Route::match(['post', 'put'], '/ads/{id}', [AdvertisementController::class, 'upd
 
 
 
+Route::post('/payment/create-order', [PaymentController::class, 'createOrder']);
 
-Route::get('/admin/certificate', [CertificateController::class, 'index']);
-Route::post('/admin/certificate', [CertificateController::class, 'store']);
-Route::post('/admin/certificate/update', [CertificateController::class, 'update']);
-Route::delete('/admin/certificate/delete', [CertificateController::class, 'destroy']);
-Route::get('/admin/notification-data', [StudentController::class, 'getNotificationRegistrations']);
+Route::post('/payment/verify', [PaymentController::class, 'verifyPayment']);
 
+Route::post('/register-event', [EventController::class, 'registerEvent']);
 
 Route::get('/chart-data', [DashboardController::class, 'getChartData']);
 Route::get('/dashboard-counts', [DashboardController::class, 'getCounts']);
