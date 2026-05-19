@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axiosInstance from "../../axiosInstance";
 import Swal from "sweetalert2";
 
@@ -13,6 +13,7 @@ interface MarathonData {
 
 const AdminMarathonCategory = () => {
   const [previewImage, setPreviewImage] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null); // ஃபைல் இன்புட்டை ரீசெட் செய்ய
 
   const [formData, setFormData] = useState<MarathonData>({
     title: "",
@@ -58,9 +59,7 @@ const AdminMarathonCategory = () => {
   };
 
   // INPUT CHANGE
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setFormData((prev) => ({
@@ -101,18 +100,11 @@ const AdminMarathonCategory = () => {
     try {
 
       const payload = new FormData();
-
       payload.append("title", formData.title);
       payload.append("subtitle", formData.subtitle);
       payload.append("event_time", formData.event_time);
-      payload.append(
-        "registration_fee",
-        formData.registration_fee
-      );
-      payload.append(
-        "marathon_route",
-        formData.marathon_route
-      );
+      payload.append("registration_fee", formData.registration_fee);
+      payload.append("marathon_route", formData.marathon_route);
 
       // IMAGE
       if (formData.image) {
@@ -137,7 +129,10 @@ const AdminMarathonCategory = () => {
         text: "Marathon Category Saved Successfully",
       });
 
-      fetchMarathonCategory();
+      // ஃபைல் இன்புட் ஃபீல்டை கிளியர் செய்ய
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
 
     } catch (error: any) {
 
@@ -157,7 +152,6 @@ const AdminMarathonCategory = () => {
     <div className="min-h-screen bg-gray-100 p-6">
 
       <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl p-8">
-
         <h2 className="text-4xl font-black mb-8 text-center text-black">
           Admin Marathon Category
         </h2>
@@ -169,10 +163,7 @@ const AdminMarathonCategory = () => {
 
           {/* TITLE */}
           <div>
-            <label className="font-semibold block mb-2">
-              Title
-            </label>
-
+            <label className="font-semibold block mb-2">Title</label>
             <input
               type="text"
               name="title"
@@ -185,10 +176,7 @@ const AdminMarathonCategory = () => {
 
           {/* SUBTITLE */}
           <div>
-            <label className="font-semibold block mb-2">
-              Subtitle
-            </label>
-
+            <label className="font-semibold block mb-2">Subtitle</label>
             <input
               type="text"
               name="subtitle"
@@ -201,26 +189,20 @@ const AdminMarathonCategory = () => {
 
           {/* EVENT TIME */}
           <div>
-            <label className="font-semibold block mb-2">
-              Event Time
-            </label>
-
+            <label className="font-semibold block mb-2">Event Time</label>
             <input
               type="text"
               name="event_time"
               value={formData.event_time}
               onChange={handleChange}
-              placeholder="Morning 10:00 AM"
+              placeholder="Morning 10.00 am"
               className="w-full border p-4 rounded-xl outline-none"
             />
           </div>
 
           {/* REGISTRATION FEE */}
           <div>
-            <label className="font-semibold block mb-2">
-              Registration Fee
-            </label>
-
+            <label className="font-semibold block mb-2">Registration Fee</label>
             <input
               type="text"
               name="registration_fee"
@@ -233,10 +215,7 @@ const AdminMarathonCategory = () => {
 
           {/* ROUTE */}
           <div>
-            <label className="font-semibold block mb-2">
-              Marathon Route
-            </label>
-
+            <label className="font-semibold block mb-2">Marathon Route</label>
             <input
               type="text"
               name="marathon_route"
@@ -249,10 +228,7 @@ const AdminMarathonCategory = () => {
 
           {/* IMAGE */}
           <div>
-            <label className="font-semibold block mb-2">
-              Upload Image
-            </label>
-
+            <label className="font-semibold block mb-2">Upload Image</label>
             <input
               type="file"
               accept=".jpg,.jpeg,.png,.webp,.avif"
@@ -264,6 +240,7 @@ const AdminMarathonCategory = () => {
           {/* IMAGE PREVIEW */}
           {previewImage && (
             <div>
+              <p className="font-semibold mb-2">Preview:</p>
               <img
                 src={previewImage}
                 alt="Preview"
