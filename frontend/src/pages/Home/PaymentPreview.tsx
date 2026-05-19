@@ -107,15 +107,22 @@ const PaymentPage: React.FC = () => {
               }
             );
 
-            toast.success(
-              "Payment Successful ✅"
-            );
+            toast.success("Payment Successful ✅");
+
+            // Navigate to home immediately and add a fallback full reload
+            try {
+              navigate("/");
+            } catch (err) {
+              // ignore
+            }
 
             setTimeout(() => {
-
-              navigate("/");
-
-            }, 1500);
+              try {
+                window.location.href = "/";
+              } catch (e) {
+                // ignore
+              }
+            }, 1000);
 
           } catch (error) {
 
