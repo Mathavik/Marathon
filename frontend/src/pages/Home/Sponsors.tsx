@@ -29,13 +29,17 @@ const Sponsors = () => {
 
   return (
 
-    <section className="py-16 bg-white overflow-hidden">
+    <section className="py-20 bg-black overflow-hidden">
 
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4">
 
-        <h2 className="text-2xl md:text-4xl font-black text-center mb-14 uppercase tracking-wide text-black">
+        {/* HEADING */}
+
+        <h2 className="text-2xl md:text-4xl font-black text-center mb-16 uppercase tracking-wide text-white">
           Our Sponsors
         </h2>
+
+        {/* SCROLL SECTION */}
 
         <div className="relative overflow-hidden w-full">
 
@@ -45,13 +49,15 @@ const Sponsors = () => {
 
               <div
                 key={idx}
-                className="flex-shrink-0 mx-8 bg-gray-100 rounded-2xl shadow-md p-6 flex items-center justify-center"
+                className="flex-shrink-0 mx-8 w-[260px] h-[160px] bg-white rounded-3xl overflow-hidden shadow-2xl group cursor-pointer"
               >
+
+                {/* FULL CARD IMAGE */}
 
                 <img
                   src={item.image_url}
                   alt={item.title}
-                  className="h-[90px] w-[180px] object-contain hover:scale-110 transition-transform duration-300"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
 
               </div>
