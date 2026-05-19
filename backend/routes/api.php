@@ -15,6 +15,62 @@ use App\Http\Controllers\Admin\CertificateController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventHighlightController;
 use App\Http\Controllers\HeroSectionController;
+use App\Http\Controllers\SponsorController;
+Route::get('/schools', [StudentController::class, 'getSchools']);
+
+Route::middleware('auth.custom')->group(function () {
+    Route::get('/categories', function (Request $request) {
+        return "Protected data";
+    });
+});
+use Illuminate\Http\Request; 
+Route::middleware('auth.custom')->get('/me', function (Request $request) {
+    $token = $request->cookie('token');
+
+    if (!$token) {
+        return response()->json(['error' => 'Unauthenticated'], 401);
+    }
+
+    $student = \App\Models\Student::where('api_token', $token)->first();
+
+    if (!$student) {
+        return response()->json(['error' => 'Invalid token'], 401);
+    }
+
+    return $student;
+});
+// routes/api.php
+Route::get('/admin/notifications', function () {
+    $admin = \App\Models\Admin::first(); // or auth admin
+    return response()->json($admin->notifications);
+});
+
+Route::get('/admin/notifications/unread-count', function () {
+    $admin = \App\Models\Admin::first();
+    return response()->json([
+        'count' => $admin->unreadNotifications->count()
+    ]);
+});
+
+// use Illuminate\Support\Facades\Route;
+use App\Models\Admin;
+
+Route::post('/admin/notifications/read', function () {
+    $admin = Admin::first(); // later replace with auth()
+
+    $admin->unreadNotifications->markAsRead();
+
+    return response()->json([
+        'message' => 'Marked as read'
+    ]);
+});
+
+// Get all events for a student
+Route::get('/student/{id}/events', [EventRegistrationsController::class, 'showEvents']);
+
+// Register student for an event
+Route::post('/event/register', [EventRegistrationsController::class, 'registerEvent']);
+
 
 // REGISTER
 Route::post('/register', [MarathonRegistrationController::class, 'store']);
@@ -118,3 +174,15 @@ use App\Http\Controllers\MarathonCategoryController;
 
 Route::get('/marathon-category', [MarathonCategoryController::class, 'index']);
 Route::post('/marathon-category', [MarathonCategoryController::class, 'store']);
+
+Route::get('/sponsors', [SponsorController::class, 'index']);
+
+Route::get('/admin/sponsors', [SponsorController::class, 'adminIndex']);
+
+Route::post('/admin/sponsors', [SponsorController::class, 'store']);
+
+Route::post('/admin/sponsors/{id}', [SponsorController::class, 'update']);
+
+Route::delete('/admin/sponsors/{id}', [SponsorController::class, 'destroy']);
+
+Route::patch('/admin/sponsors/status/{id}', [SponsorController::class, 'status']);

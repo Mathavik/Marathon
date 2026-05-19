@@ -53,7 +53,7 @@ class HeroSectionController extends Controller
             'event_date' => 'required|date',
             'location' => 'required',
             'primary_button' => 'required',
-            'background_image' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'background_image' => 'required|image|mimes:jpg,jpeg,png,webp|max:10240',
         ]);
 
         // Upload Image
