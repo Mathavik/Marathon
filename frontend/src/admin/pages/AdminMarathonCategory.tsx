@@ -30,7 +30,9 @@ const AdminMarathonCategory = () => {
 
   const fetchMarathonCategory = async () => {
     try {
-      const response = await axiosInstance.get("/marathon-category");
+      const response = await axiosInstance.get(
+        "/marathon-category"
+      );
 
       const data = response.data.data;
 
@@ -44,10 +46,12 @@ const AdminMarathonCategory = () => {
           image: null,
         });
 
+        // IMAGE PREVIEW
         setPreviewImage(
-          `http://127.0.0.1:8000/storage/${data.image}`
+          `http://127.0.0.1:8000/${data.image}`
         );
       }
+
     } catch (error) {
       console.error(error);
     }
@@ -59,25 +63,31 @@ const AdminMarathonCategory = () => {
   ) => {
     const { name, value } = e.target;
 
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
-    });
+    }));
   };
 
   // IMAGE CHANGE
   const handleImageChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
+
     const file = e.target.files?.[0];
 
     if (file) {
-      setFormData({
-        ...formData,
-        image: file,
-      });
 
-      setPreviewImage(URL.createObjectURL(file));
+      // SAVE FILE
+      setFormData((prev) => ({
+        ...prev,
+        image: file,
+      }));
+
+      // IMAGE PREVIEW
+      const imageUrl = URL.createObjectURL(file);
+
+      setPreviewImage(imageUrl);
     }
   };
 
@@ -85,9 +95,11 @@ const AdminMarathonCategory = () => {
   const handleSubmit = async (
     e: React.FormEvent
   ) => {
+
     e.preventDefault();
 
     try {
+
       const payload = new FormData();
 
       payload.append("title", formData.title);
@@ -102,11 +114,12 @@ const AdminMarathonCategory = () => {
         formData.marathon_route
       );
 
+      // IMAGE
       if (formData.image) {
         payload.append("image", formData.image);
       }
 
-      await axiosInstance.post(
+      const response = await axiosInstance.post(
         "/marathon-category",
         payload,
         {
@@ -116,6 +129,8 @@ const AdminMarathonCategory = () => {
         }
       );
 
+      console.log(response.data);
+
       Swal.fire({
         icon: "success",
         title: "Success",
@@ -124,22 +139,26 @@ const AdminMarathonCategory = () => {
 
       fetchMarathonCategory();
 
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+
+      console.error(error.response?.data);
 
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "Something went wrong",
+        text:
+          error.response?.data?.message ||
+          "Something went wrong",
       });
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
+
       <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl p-8">
 
-        <h2 className="text-4xl font-black mb-8 text-center">
+        <h2 className="text-4xl font-black mb-8 text-center text-black">
           Admin Marathon Category
         </h2>
 
@@ -148,7 +167,7 @@ const AdminMarathonCategory = () => {
           className="space-y-6 text-black"
         >
 
-          {/* Title */}
+          {/* TITLE */}
           <div>
             <label className="font-semibold block mb-2">
               Title
@@ -164,7 +183,7 @@ const AdminMarathonCategory = () => {
             />
           </div>
 
-          {/* Subtitle */}
+          {/* SUBTITLE */}
           <div>
             <label className="font-semibold block mb-2">
               Subtitle
@@ -180,7 +199,7 @@ const AdminMarathonCategory = () => {
             />
           </div>
 
-          {/* Event Time */}
+          {/* EVENT TIME */}
           <div>
             <label className="font-semibold block mb-2">
               Event Time
@@ -196,7 +215,7 @@ const AdminMarathonCategory = () => {
             />
           </div>
 
-          {/* Registration Fee */}
+          {/* REGISTRATION FEE */}
           <div>
             <label className="font-semibold block mb-2">
               Registration Fee
@@ -212,7 +231,7 @@ const AdminMarathonCategory = () => {
             />
           </div>
 
-          {/* Marathon Route */}
+          {/* ROUTE */}
           <div>
             <label className="font-semibold block mb-2">
               Marathon Route
@@ -228,7 +247,7 @@ const AdminMarathonCategory = () => {
             />
           </div>
 
-          {/* Image Upload */}
+          {/* IMAGE */}
           <div>
             <label className="font-semibold block mb-2">
               Upload Image
@@ -236,30 +255,31 @@ const AdminMarathonCategory = () => {
 
             <input
               type="file"
-              accept="image/*"
+              accept=".jpg,.jpeg,.png,.webp,.avif"
               onChange={handleImageChange}
               className="w-full border p-4 rounded-xl"
             />
           </div>
 
-          {/* Preview Image */}
+          {/* IMAGE PREVIEW */}
           {previewImage && (
             <div>
               <img
                 src={previewImage}
                 alt="Preview"
-                className="w-full h-[300px] object-cover rounded-2xl"
+                className="w-full h-[300px] object-cover rounded-2xl border"
               />
             </div>
           )}
 
-          {/* Submit Button */}
+          {/* BUTTON */}
           <button
             type="submit"
             className="w-full bg-orange-500 hover:bg-orange-600 transition-all duration-300 text-white font-bold py-4 rounded-2xl"
           >
             Save Marathon Category
           </button>
+
         </form>
       </div>
     </div>

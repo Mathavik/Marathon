@@ -37,20 +37,17 @@ class MarathonCategoryController extends Controller
     $imagePath = $category?->image;
 
     // NEW IMAGE UPLOAD
-    if ($request->hasFile('image')) {
+   if ($request->hasFile('image')) {
 
-        $image = $request->file('image');
+    $image = $request->file('image');
 
-        $imageName = time() . '.' . $image->getClientOriginalExtension();
+    $imageName = time() . '.' . $image->getClientOriginalExtension();
 
-        $image->storeAs(
-            'marathon-category',
-            $imageName,
-            'public'
-        );
+    // MOVE TO PUBLIC/UPLOADS
+    $image->move(public_path('upload'), $imageName);
 
-        $imagePath = 'marathon-category/' . $imageName;
-    }
+    $imagePath = 'upload/' . $imageName;
+}
 
     // UPDATE EXISTING
     if ($category) {

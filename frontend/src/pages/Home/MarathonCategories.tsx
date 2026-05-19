@@ -61,7 +61,7 @@ const MarathonCategories = () => {
                 {/* Marathon Image */}
                 <div className="mb-8">
                   <img
-                    src={`http://127.0.0.1:8000/storage/${data?.image}`}
+                    src={`http://127.0.0.1:8000/${data?.image}`}
                     alt="Marathon Runner"
                     className="w-full h-[260px] object-cover rounded-3xl shadow-2xl border border-white/10"
                   />
