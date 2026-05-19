@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axiosInstance from "../../axiosInstance";
 import Swal from "sweetalert2";
 
@@ -13,6 +13,7 @@ interface MarathonData {
 
 const AdminMarathonCategory = () => {
   const [previewImage, setPreviewImage] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null); // ஃபைல் இன்புட்டை ரீசெட் செய்ய
 
   const [formData, setFormData] = useState<MarathonData>({
     title: "",
@@ -31,7 +32,6 @@ const AdminMarathonCategory = () => {
   const fetchMarathonCategory = async () => {
     try {
       const response = await axiosInstance.get("/marathon-category");
-
       const data = response.data.data;
 
       if (data) {
@@ -54,11 +54,8 @@ const AdminMarathonCategory = () => {
   };
 
   // INPUT CHANGE
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
     setFormData({
       ...formData,
       [name]: value,
@@ -66,9 +63,7 @@ const AdminMarathonCategory = () => {
   };
 
   // IMAGE CHANGE
-  const handleImageChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
     if (file) {
@@ -77,44 +72,36 @@ const AdminMarathonCategory = () => {
         image: file,
       });
 
+      // பழைய தற்காலிக blob URL இருந்தால் மெமரியை ரிலீஸ் செய்யணும்
+      if (previewImage.startsWith("blob:")) {
+        URL.revokeObjectURL(previewImage);
+      }
+
       setPreviewImage(URL.createObjectURL(file));
     }
   };
 
   // SUBMIT
-  const handleSubmit = async (
-    e: React.FormEvent
-  ) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
       const payload = new FormData();
-
       payload.append("title", formData.title);
       payload.append("subtitle", formData.subtitle);
       payload.append("event_time", formData.event_time);
-      payload.append(
-        "registration_fee",
-        formData.registration_fee
-      );
-      payload.append(
-        "marathon_route",
-        formData.marathon_route
-      );
+      payload.append("registration_fee", formData.registration_fee);
+      payload.append("marathon_route", formData.marathon_route);
 
       if (formData.image) {
         payload.append("image", formData.image);
       }
 
-      await axiosInstance.post(
-        "/marathon-category",
-        payload,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      await axiosInstance.post("/marathon-category", payload, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       Swal.fire({
         icon: "success",
@@ -122,11 +109,14 @@ const AdminMarathonCategory = () => {
         text: "Marathon Category Saved Successfully",
       });
 
-      fetchMarathonCategory();
+      // ஃபைல் இன்புட் ஃபீல்டை கிளியர் செய்ய
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
 
+      fetchMarathonCategory();
     } catch (error) {
       console.error(error);
-
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -138,22 +128,14 @@ const AdminMarathonCategory = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl p-8">
-
-        <h2 className="text-4xl font-black mb-8 text-center">
+        <h2 className="text-4xl font-black mb-8 text-center text-black">
           Admin Marathon Category
         </h2>
 
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-6 text-black"
-        >
-
+        <form onSubmit={handleSubmit} className="space-y-6 text-black">
           {/* Title */}
           <div>
-            <label className="font-semibold block mb-2">
-              Title
-            </label>
-
+            <label className="font-semibold block mb-2">Title</label>
             <input
               type="text"
               name="title"
@@ -166,10 +148,7 @@ const AdminMarathonCategory = () => {
 
           {/* Subtitle */}
           <div>
-            <label className="font-semibold block mb-2">
-              Subtitle
-            </label>
-
+            <label className="font-semibold block mb-2">Subtitle</label>
             <input
               type="text"
               name="subtitle"
@@ -182,26 +161,20 @@ const AdminMarathonCategory = () => {
 
           {/* Event Time */}
           <div>
-            <label className="font-semibold block mb-2">
-              Event Time
-            </label>
-
+            <label className="font-semibold block mb-2">Event Time</label>
             <input
               type="text"
               name="event_time"
               value={formData.event_time}
               onChange={handleChange}
-              placeholder="Morning 10:00 AM"
+              placeholder="Morning 10.00 am"
               className="w-full border p-4 rounded-xl outline-none"
             />
           </div>
 
           {/* Registration Fee */}
           <div>
-            <label className="font-semibold block mb-2">
-              Registration Fee
-            </label>
-
+            <label className="font-semibold block mb-2">Registration Fee</label>
             <input
               type="text"
               name="registration_fee"
@@ -214,10 +187,7 @@ const AdminMarathonCategory = () => {
 
           {/* Marathon Route */}
           <div>
-            <label className="font-semibold block mb-2">
-              Marathon Route
-            </label>
-
+            <label className="font-semibold block mb-2">Marathon Route</label>
             <input
               type="text"
               name="marathon_route"
@@ -230,12 +200,10 @@ const AdminMarathonCategory = () => {
 
           {/* Image Upload */}
           <div>
-            <label className="font-semibold block mb-2">
-              Upload Image
-            </label>
-
+            <label className="font-semibold block mb-2">Upload Image</label>
             <input
               type="file"
+              ref={fileInputRef}
               accept="image/*"
               onChange={handleImageChange}
               className="w-full border p-4 rounded-xl"
@@ -245,10 +213,15 @@ const AdminMarathonCategory = () => {
           {/* Preview Image */}
           {previewImage && (
             <div>
+              <p className="font-semibold mb-2">Preview:</p>
               <img
                 src={previewImage}
                 alt="Preview"
-                className="w-full h-[300px] object-cover rounded-2xl"
+                className="w-full h-[300px] object-cover rounded-2xl border"
+                onError={(e) => {
+                  // ஒருவேளை லோக்கல் இமேஜ் லிங்க் உடைந்தால் ஆல்டர்நேட்டிவ் காட்ட
+                  (e.target as HTMLImageElement).src = "https://placehold.co/600x400?text=No+Image+Found";
+                }}
               />
             </div>
           )}
