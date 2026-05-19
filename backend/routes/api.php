@@ -170,6 +170,10 @@ Route::get('/event-highlights', [EventHighlightController::class, 'index']);
 
 Route::post('/event-highlights', [EventHighlightController::class, 'store']);
 
+use App\Http\Controllers\MarathonCategoryController;
+
+Route::get('/marathon-category', [MarathonCategoryController::class, 'index']);
+Route::post('/marathon-category', [MarathonCategoryController::class, 'store']);
 
 Route::get('/sponsors', [SponsorController::class, 'index']);
 
