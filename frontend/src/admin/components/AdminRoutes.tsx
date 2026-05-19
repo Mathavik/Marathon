@@ -18,7 +18,7 @@ import ParticipationCertificate from "../pages/ParticipationCertificate";
 import AdminHeroSection from "../pages/AdminHeroSection";
 import AdminSponsors from "../pages/AdminSponsors";
 import AdminEventHighlights from "../pages/AdminEventHighlights";
-import AdminMarathonCategory from "../../pages/Home/AdminMarathonCategory";
+import AdminMarathonCategory from "../pages/AdminMarathonCategory";
 const AdminRoutes: React.FC = () => {
   return (
     <Routes>

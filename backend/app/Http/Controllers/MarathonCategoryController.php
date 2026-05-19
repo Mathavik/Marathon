@@ -19,7 +19,7 @@ class MarathonCategoryController extends Controller
     }
 
     // STORE / UPDATE DATA
-   public function store(Request $request)
+  public function store(Request $request)
 {
     $request->validate([
         'title' => 'required',
@@ -27,10 +27,9 @@ class MarathonCategoryController extends Controller
         'event_time' => 'required',
         'registration_fee' => 'required',
         'marathon_route' => 'required',
-        'image' => 'required|image|mimes:jpg,jpeg,png,avif,webp|max:2048'
+        'image' => 'required|mimes:jpg,jpeg,png,avif,webp|max:2048'
     ]);
 
-    // Image Upload
     $imagePath = null;
 
     if ($request->hasFile('image')) {
@@ -39,12 +38,15 @@ class MarathonCategoryController extends Controller
 
         $imageName = time() . '.' . $image->getClientOriginalExtension();
 
-        $image->storeAs('marathon-category', $imageName, 'public');
+        $image->storeAs(
+            'marathon-category',
+            $imageName,
+            'public'
+        );
 
         $imagePath = 'marathon-category/' . $imageName;
     }
 
-    // Save Data
     $category = MarathonCategory::create([
         'title' => $request->title,
         'subtitle' => $request->subtitle,
