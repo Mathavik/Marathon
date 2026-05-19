@@ -19,7 +19,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import PaymentPage from "./pages/Home/PaymentPreview";
 import HomeRegistration from "./pages/Home/HomeRegistration";
 import AdminGallery from "./pages/Gallery/AdminGallery";
-import AdminEventHighlights from "./pages/Gallery/AdminEventHighlights";
+import AdminEventHighlights from "./admin/pages/AdminEventHighlights";
 const AppContent = () => {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin");

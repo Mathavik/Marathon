@@ -29,12 +29,11 @@ const EventHighlights = () => {
 
   return (
 
-    <section className="py-20 bg-white text-[#111827] font-sans overflow-hidden">
+    <section className="py-20 bg-black text-[#111827] font-sans overflow-hidden">
 
       <div className="container mx-auto px-4 max-w-7xl">
 
-       <h1 className="text-2xl md:text-3xl font-black text-center mb-12 uppercase tracking-wide text-slate-800">
-  Event Highlights
+<h1 className="text-2xl md:text-3xl font-black text-center mb-12 uppercase tracking-wide text-white">  Event Highlights
 </h1>
 
 <div className="flex flex-wrap justify-evenly gap-10">
@@ -57,8 +56,7 @@ const EventHighlights = () => {
 </div>
               </div>
 
-              <span className="text-lg md:text-xl font-extrabold text-slate-700 group-hover:text-orange-600 transition-colors duration-200 text-center block tracking-wide">
-{item.title}
+<span className="text-lg md:text-xl font-extrabold text-orange-500 group-hover:text-orange-400 transition-colors duration-200 text-center block tracking-wide">{item.title}
               </span>
 
             </div>

@@ -56,45 +56,55 @@ const AdminSidebar: React.FC = () => {
               Dashboard
             </NavLink>
 
-            <NavLink to="/admin/categories" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
+ <NavLink to="/admin/adminherosection" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
+              hero section
+            </NavLink>
+            {/* <NavLink to="/admin/categories" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
               Categories
-            </NavLink>
+            </NavLink> */}
 
-            <NavLink to="/admin/adminEvents" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
-              Events
-            </NavLink>
-
-            <NavLink to="/admin/adminGallery" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
-              Gallery
-            </NavLink>
-
-            <NavLink to="/admin/registrations" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
+    <NavLink to="/admin/registrations" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
               Registrations
             </NavLink>
-
-            <NavLink to="/admin/participation-certificate" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
+                 {/* <NavLink to="/admin/participation-certificate" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
               Participation Certificate
+            </NavLink> */}
+
+            <NavLink to="/admin/admingallery" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
+              Gallery
+            </NavLink>
+              <NavLink to="/admin/admineventhighlights" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
+              Event Highlights
             </NavLink>
 
+
+  <NavLink to="/admin/adminsponsors" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
+              Sponsors
+            </NavLink>
+           
+
+        
+
+{/*        
             <NavLink to="/admin/winners" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
               Winners
-            </NavLink>
+            </NavLink> */}
 
-            <NavLink to="/admin/school-report" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
+            {/* <NavLink to="/admin/school-report" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
               School Reports
-            </NavLink>
+            </NavLink> */}
 
-            <NavLink to="/admin/ads" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
+            {/* <NavLink to="/admin/ads" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
               Advertisements
-            </NavLink>
+            </NavLink> */}
 
-            <NavLink to="/admin/overall-winners" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
+            {/* <NavLink to="/admin/overall-winners" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
               Overall Winners
             </NavLink>
 
             <NavLink to="/admin/certificate" className={({ isActive }) => `${linkClass} ${isActive ? activeClass : hoverClass}`}>
               Certificate setting
-            </NavLink>
+            </NavLink> */}
           </nav>
 
           {/* bottom decoration */}
