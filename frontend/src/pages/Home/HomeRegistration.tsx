@@ -109,7 +109,7 @@ const MarathonRegister = () => {
 
   return (
 
-    <div className="min-h-screen bg-black text-white flex items-center justify-center px-4 py-10">
+    <div id="home-registration" className="min-h-screen bg-black text-white flex items-center justify-center px-4 py-10">
 
       <div className="w-full max-w-7xl grid lg:grid-cols-2 rounded-3xl overflow-hidden border border-orange-500/20 shadow-2xl bg-[#0f172a]">
 
