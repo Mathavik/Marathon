@@ -6,17 +6,15 @@ use App\Http\Controllers\EventController;
 
 use App\Http\Controllers\PaymentController;
 
-<<<<<<< HEAD
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MarathonRegistrationController;
-=======
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AdvertisementController;
 use App\Http\Controllers\Admin\CertificateController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventHighlightController;
->>>>>>> 6a68063075371655ae765e11a32581bb69c4eee8
+use App\Http\Controllers\HeroSectionController;
 
 // REGISTER
 Route::post('/register', [MarathonRegistrationController::class, 'store']);
@@ -27,8 +25,6 @@ Route::post('/login', [AuthController::class, 'login']);
 
 // LOGOUT
 Route::post('/logout', [AuthController::class, 'logout']);
-<<<<<<< HEAD
-=======
 Route::post('/students', [StudentController::class, 'store']);
 // Route::post('/event-register', [EventController::class, 'store']);
 
@@ -89,7 +85,6 @@ Route::delete('/ads/{id}', [AdvertisementController::class, 'destroy']); // dele
 Route::get('/overall-winners', [EventController::class, 'overallWinners']);
 Route::match(['post', 'put'], '/ads/{id}', [AdvertisementController::class, 'update']);
 // Route::post('/ads/{id}', [AdvertisementController::class, 'update']);
->>>>>>> 6a68063075371655ae765e11a32581bb69c4eee8
 
 
 
@@ -98,9 +93,7 @@ Route::post('/payment/create-order', [PaymentController::class, 'createOrder']);
 
 Route::post('/payment/verify', [PaymentController::class, 'verifyPayment']);
 
-<<<<<<< HEAD
 Route::post('/register-event', [EventController::class, 'registerEvent']);
-=======
 
 Route::get('/chart-data', [DashboardController::class, 'getChartData']);
 Route::get('/dashboard-counts', [DashboardController::class, 'getCounts']);
@@ -111,7 +104,7 @@ Route::get('/events-by-school/{school}', [EventRegistrationsController::class, '
 Route::get('/students-by-event/{event}', [EventRegistrationsController::class, 'getStudentsByEvent']);
 Route::get('/download-certificate/{event}/{school}', [EventRegistrationsController::class, 'downloadCertificate']);
 
-use App\Http\Controllers\HeroSectionController;
+
 
 Route::get('/hero-section', [HeroSectionController::class, 'index']);
 Route::post('/hero-section', [HeroSectionController::class, 'store']);
@@ -121,4 +114,3 @@ Route::get('/event-highlights', [EventHighlightController::class, 'index']);
 
 Route::post('/event-highlights', [EventHighlightController::class, 'store']);
 
->>>>>>> 6a68063075371655ae765e11a32581bb69c4eee8
