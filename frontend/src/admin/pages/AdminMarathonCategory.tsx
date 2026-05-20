@@ -13,7 +13,10 @@ interface MarathonData {
 
 const AdminMarathonCategory = () => {
   const [previewImage, setPreviewImage] = useState("");
-  const fileInputRef = useRef<HTMLInputElement>(null); // ஃபைல் இன்புட்டை ரீசெட் செய்ய
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState<MarathonData>({
     title: "",
@@ -31,9 +34,9 @@ const AdminMarathonCategory = () => {
 
   const fetchMarathonCategory = async () => {
     try {
-      const response = await axiosInstance.get(
-        "/marathon-category"
-      );
+      setLoading(true);
+
+      const response = await axiosInstance.get("/marathon-category");
 
       const data = response.data.data;
 
@@ -47,14 +50,12 @@ const AdminMarathonCategory = () => {
           image: null,
         });
 
-        // IMAGE PREVIEW
-        setPreviewImage(
-          `http://127.0.0.1:8000/${data.image}`
-        );
+        setPreviewImage(`http://127.0.0.1:8000/${data.image}`);
       }
-
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -72,18 +73,14 @@ const AdminMarathonCategory = () => {
   const handleImageChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-
     const file = e.target.files?.[0];
 
     if (file) {
-
-      // SAVE FILE
       setFormData((prev) => ({
         ...prev,
         image: file,
       }));
 
-      // IMAGE PREVIEW
       const imageUrl = URL.createObjectURL(file);
 
       setPreviewImage(imageUrl);
@@ -91,27 +88,31 @@ const AdminMarathonCategory = () => {
   };
 
   // SUBMIT
-  const handleSubmit = async (
-    e: React.FormEvent
-  ) => {
-
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
+      setLoading(true);
 
       const payload = new FormData();
+
       payload.append("title", formData.title);
       payload.append("subtitle", formData.subtitle);
       payload.append("event_time", formData.event_time);
-      payload.append("registration_fee", formData.registration_fee);
-      payload.append("marathon_route", formData.marathon_route);
+      payload.append(
+        "registration_fee",
+        formData.registration_fee
+      );
+      payload.append(
+        "marathon_route",
+        formData.marathon_route
+      );
 
-      // IMAGE
       if (formData.image) {
         payload.append("image", formData.image);
       }
 
-      const response = await axiosInstance.post(
+      await axiosInstance.post(
         "/marathon-category",
         payload,
         {
@@ -121,21 +122,21 @@ const AdminMarathonCategory = () => {
         }
       );
 
-      console.log(response.data);
-
       Swal.fire({
         icon: "success",
         title: "Success",
         text: "Marathon Category Saved Successfully",
+        background: "#020617",
+        color: "#fff",
+        confirmButtonColor: "#f97316",
       });
 
-      // ஃபைல் இன்புட் ஃபீல்டை கிளியர் செய்ய
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
 
+      fetchMarathonCategory();
     } catch (error: any) {
-
       console.error(error.response?.data);
 
       Swal.fire({
@@ -144,119 +145,147 @@ const AdminMarathonCategory = () => {
         text:
           error.response?.data?.message ||
           "Something went wrong",
+        background: "#020617",
+        color: "#fff",
+        confirmButtonColor: "#f97316",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="min-h-screen bg-[#050816] text-white p-6 md:p-8">
+     
 
-      <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl p-8">
-        <h2 className="text-4xl font-black mb-8 text-center text-black">
-          Admin Marathon Category
-        </h2>
-
+      {/* FORM */}
+      <div className="rounded-[32px] border border-slate-800 bg-slate-950/90 shadow-[0_30px_60px_rgba(0,0,0,0.3)] p-8">
         <form
           onSubmit={handleSubmit}
-          className="space-y-6 text-black"
+          className="space-y-7"
         >
-
           {/* TITLE */}
           <div>
-            <label className="font-semibold block mb-2">Title</label>
+            <label className="block text-sm font-black uppercase tracking-[0.15em] text-orange-300 mb-3">
+              Marathon Title
+            </label>
+
             <input
               type="text"
               name="title"
               value={formData.title}
               onChange={handleChange}
               placeholder="10KM Marathon"
-              className="w-full border p-4 rounded-xl outline-none"
+              className="w-full rounded-2xl border border-slate-700 bg-slate-900/80 px-5 py-4 text-white placeholder:text-slate-500 outline-none focus:border-orange-500 transition-all"
             />
           </div>
 
           {/* SUBTITLE */}
           <div>
-            <label className="font-semibold block mb-2">Subtitle</label>
+            <label className="block text-sm font-black uppercase tracking-[0.15em] text-orange-300 mb-3">
+              Subtitle
+            </label>
+
             <input
               type="text"
               name="subtitle"
               value={formData.subtitle}
               onChange={handleChange}
               placeholder="Run Beyond Limits"
-              className="w-full border p-4 rounded-xl outline-none"
+              className="w-full rounded-2xl border border-slate-700 bg-slate-900/80 px-5 py-4 text-white placeholder:text-slate-500 outline-none focus:border-orange-500 transition-all"
             />
           </div>
 
           {/* EVENT TIME */}
           <div>
-            <label className="font-semibold block mb-2">Event Time</label>
+            <label className="block text-sm font-black uppercase tracking-[0.15em] text-orange-300 mb-3">
+              Event Time
+            </label>
+
             <input
               type="text"
               name="event_time"
               value={formData.event_time}
               onChange={handleChange}
-              placeholder="Morning 10.00 am"
-              className="w-full border p-4 rounded-xl outline-none"
+              placeholder="Morning 10.00 AM"
+              className="w-full rounded-2xl border border-slate-700 bg-slate-900/80 px-5 py-4 text-white placeholder:text-slate-500 outline-none focus:border-orange-500 transition-all"
             />
           </div>
 
           {/* REGISTRATION FEE */}
           <div>
-            <label className="font-semibold block mb-2">Registration Fee</label>
+            <label className="block text-sm font-black uppercase tracking-[0.15em] text-orange-300 mb-3">
+              Registration Fee
+            </label>
+
             <input
               type="text"
               name="registration_fee"
               value={formData.registration_fee}
               onChange={handleChange}
               placeholder="1500"
-              className="w-full border p-4 rounded-xl outline-none"
+              className="w-full rounded-2xl border border-slate-700 bg-slate-900/80 px-5 py-4 text-white placeholder:text-slate-500 outline-none focus:border-orange-500 transition-all"
             />
           </div>
 
           {/* ROUTE */}
           <div>
-            <label className="font-semibold block mb-2">Marathon Route</label>
+            <label className="block text-sm font-black uppercase tracking-[0.15em] text-orange-300 mb-3">
+              Marathon Route
+            </label>
+
             <input
               type="text"
               name="marathon_route"
               value={formData.marathon_route}
               onChange={handleChange}
               placeholder="City Central Track"
-              className="w-full border p-4 rounded-xl outline-none"
+              className="w-full rounded-2xl border border-slate-700 bg-slate-900/80 px-5 py-4 text-white placeholder:text-slate-500 outline-none focus:border-orange-500 transition-all"
             />
           </div>
 
           {/* IMAGE */}
           <div>
-            <label className="font-semibold block mb-2">Upload Image</label>
+            <label className="block text-sm font-black uppercase tracking-[0.15em] text-orange-300 mb-3">
+              Upload Marathon Image
+            </label>
+
             <input
+              ref={fileInputRef}
               type="file"
               accept=".jpg,.jpeg,.png,.webp,.avif"
               onChange={handleImageChange}
-              className="w-full border p-4 rounded-xl"
+              className="w-full rounded-2xl border border-slate-700 bg-slate-900/80 px-5 py-4 text-white file:bg-orange-500 file:border-0 file:px-4 file:py-2 file:rounded-xl file:text-black file:font-bold"
             />
           </div>
 
           {/* IMAGE PREVIEW */}
           {previewImage && (
             <div>
-              <p className="font-semibold mb-2">Preview:</p>
-              <img
-                src={previewImage}
-                alt="Preview"
-                className="w-full h-[300px] object-cover rounded-2xl border"
-              />
+              <p className="text-sm font-black uppercase tracking-[0.15em] text-orange-300 mb-4">
+                Preview Image
+              </p>
+
+              <div className="overflow-hidden rounded-3xl border border-slate-800">
+                <img
+                  src={previewImage}
+                  alt="Preview"
+                  className="w-full h-[350px] object-cover"
+                />
+              </div>
             </div>
           )}
 
           {/* BUTTON */}
           <button
             type="submit"
-            className="w-full bg-orange-500 hover:bg-orange-600 transition-all duration-300 text-white font-bold py-4 rounded-2xl"
+            disabled={loading}
+            className="w-full rounded-3xl bg-gradient-to-r from-orange-500 to-orange-600 py-4 text-sm font-black uppercase tracking-[0.15em] text-slate-950 shadow-[0_20px_40px_rgba(249,115,22,0.25)] transition-all duration-300 hover:scale-[1.01]"
           >
-            Save Marathon Category
+            {loading
+              ? "Saving..."
+              : "Save Marathon Category"}
           </button>
-
         </form>
       </div>
     </div>

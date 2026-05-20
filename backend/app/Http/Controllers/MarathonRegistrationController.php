@@ -8,6 +8,15 @@ use Illuminate\Support\Facades\Hash;
 
 class MarathonRegistrationController extends Controller
 {
+    // GET ALL REGISTRATIONS
+    public function index()
+    {
+        $registrations = MarathonRegistration::latest()->get();
+
+        return response()->json($registrations);
+    }
+
+    // STORE REGISTRATION
     public function store(Request $request)
     {
         $request->validate([

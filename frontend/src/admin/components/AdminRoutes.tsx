@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "../pages/Dashboard";
 import Categories from "../pages/Categories";
 import Events from "../pages/adminEvents";
-import Registrations from "../pages/Registrations";
+// import Registrations from "../pages/Registrations";
 import Winners from "../pages/Winners";
 import AdminGallery from "../pages/AdminGallery";
 import AdminLayout from "./AdminLayout";
@@ -37,7 +37,10 @@ const AdminRoutes: React.FC = () => {
               <Route path="categories" element={<Categories />} />
               <Route path="adminEvents" element={<Events />} />
               <Route path="adminGallery" element={<AdminGallery />} />
-              <Route path="registrations" element={<Registrations />} />
+              <Route
+  path="registrations"
+  element={<AdminRegistrationsPage />}
+/>
               <Route path="certificate" element={<CertificateSettings />} />
 
               <Route path="winners" element={<Winners />} />

@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\CertificateController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventHighlightController;
 use App\Http\Controllers\HeroSectionController;
+
 use App\Http\Controllers\SponsorController;
 Route::get('/schools', [StudentController::class, 'getSchools']);
 
@@ -76,6 +77,7 @@ Route::post('/event/register', [EventRegistrationsController::class, 'registerEv
 Route::post('/register', [MarathonRegistrationController::class, 'store']);
 Route::post('/marathon/register', [MarathonRegistrationController::class, 'store']);
 
+Route::get('/admin/marathon-registrations', [MarathonRegistrationController::class, 'index']);
 // LOGIN
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -111,7 +113,8 @@ Route::put('/payments/{id}', [PaymentController::class, 'update']);
 Route::delete('/payments/{id}', [PaymentController::class, 'destroy']);
 
 Route::post('/admin/login', [AdminAuthController::class, 'login']);
-Route::get('/registrations', [StudentController::class, 'getRegistrations']);
+Route::get('/admin/marathon-registrations', [MarathonRegistrationController::class, 'index']);
+// Route::get('/registrations', [StudentController::class, 'getRegistrations']);
 Route::post('/team-name', [TeamController::class, 'store']);
 Route::get('/team-names', [TeamController::class, 'index']);
 Route::get('/team-names/{eventId}', [TeamController::class, 'showByEvent']);
