@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\MarathonRegistration;
 
 class Payment extends Model
 {
@@ -29,4 +30,14 @@ class Payment extends Model
 
         'payment_date'
     ];
+
+    // RELATIONSHIP
+    public function student()
+    {
+        return $this->belongsTo(
+            MarathonRegistration::class,
+            'event_student_id',
+            'id'
+        );
+    }
 }
