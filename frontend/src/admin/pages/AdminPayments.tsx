@@ -63,9 +63,7 @@ const AdminPayments = () => {
 
           <div>
 
-            <h1 className="text-2xl md:text-4xl font-black text-white">
-              Payment Management
-            </h1>
+           
 
             <p className="text-slate-400 mt-3 text-sm md:text-base">
               View all successful marathon payment transactions.
