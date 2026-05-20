@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
+use Razorpay\Api\Errors\SignatureVerificationError;
 use App\Models\Payment;
 
 class PaymentController extends Controller
@@ -17,19 +18,17 @@ class PaymentController extends Controller
 
             $request->validate([
 
-                'amount' => 'required',
+                'amount' => 'required|numeric|min:1',
 
                 'event_student_id' => 'required'
             ]);
 
             $api = new Api(
-
                 env('RAZORPAY_KEY'),
-
                 env('RAZORPAY_SECRET')
             );
 
-            // CREATE RAZORPAY ORDER
+            // CREATE ORDER
             $order = $api->order->create([
 
                 'receipt' => 'receipt_' . time(),
@@ -39,21 +38,10 @@ class PaymentController extends Controller
                 'currency' => 'INR'
             ]);
 
-            // SEND ONLY NEEDED DATA
-            $orderData = [
-
-                'id' => $order['id'],
-
-                'amount' => $order['amount'],
-
-                'currency' => $order['currency']
-            ];
-
-            // STORE IN DATABASE
+            // SAVE PAYMENT
             $payment = Payment::create([
 
-                'event_student_id' =>
-                    $request->event_student_id,
+                'event_student_id' => $request->event_student_id,
 
                 'order_id' => $order['id'],
 
@@ -66,7 +54,13 @@ class PaymentController extends Controller
 
                 'success' => true,
 
-                'order' => $orderData,
+                'message' => 'Order Created Successfully',
+
+                'order' => [
+                    'id' => $order['id'],
+                    'amount' => $order['amount'],
+                    'currency' => $order['currency']
+                ],
 
                 'payment' => $payment
             ]);
@@ -100,47 +94,51 @@ class PaymentController extends Controller
             ]);
 
             $api = new Api(
-
                 env('RAZORPAY_KEY'),
-
                 env('RAZORPAY_SECRET')
             );
 
             $attributes = [
 
-                'razorpay_order_id' =>
-                    $request->razorpay_order_id,
+                'razorpay_order_id' => $request->razorpay_order_id,
 
-                'razorpay_payment_id' =>
-                    $request->razorpay_payment_id,
+                'razorpay_payment_id' => $request->razorpay_payment_id,
 
-                'razorpay_signature' =>
-                    $request->razorpay_signature,
+                'razorpay_signature' => $request->razorpay_signature
             ];
 
             // VERIFY SIGNATURE
-            $api->utility->verifyPaymentSignature(
-                $attributes
-            );
+            $api->utility->verifyPaymentSignature($attributes);
 
-            // UPDATE DATABASE
-            Payment::where(
+            // FIND PAYMENT
+            $payment = Payment::where(
                 'order_id',
                 $request->razorpay_order_id
-            )->update([
+            )->first();
 
-                'payment_id' =>
-                    $request->razorpay_payment_id,
+            if (!$payment) {
 
-                'signature' =>
-                    $request->razorpay_signature,
+                return response()->json([
+
+                    'success' => false,
+
+                    'message' => 'Payment Record Not Found'
+
+                ], 404);
+            }
+
+            // UPDATE PAYMENT
+            $payment->update([
+
+                'payment_id' => $request->razorpay_payment_id,
+
+                'signature' => $request->razorpay_signature,
 
                 'payment_status' => 'paid',
 
                 'payment_type' => 'Razorpay',
 
-                'transaction_id' =>
-                    $request->razorpay_payment_id,
+                'transaction_id' => $request->razorpay_payment_id,
 
                 'payment_date' => now()
             ]);
@@ -149,8 +147,117 @@ class PaymentController extends Controller
 
                 'success' => true,
 
-                'message' =>
-                    'Payment Successful'
+                'message' => 'Payment Successful',
+
+                'data' => $payment
+            ]);
+
+        } catch (SignatureVerificationError $e) {
+
+            return response()->json([
+
+                'success' => false,
+
+                'message' => 'Payment Signature Verification Failed'
+
+            ], 400);
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+
+                'success' => false,
+
+                'message' => $e->getMessage()
+
+            ], 500);
+        }
+    }
+
+    // =========================
+    // GET ALL PAYMENTS
+    // =========================
+    public function getAllPayments()
+    {
+        try {
+
+            $payments = Payment::latest()->get();
+
+            return response()->json([
+
+                'success' => true,
+
+                'payments' => $payments
+            ]);
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+
+                'success' => false,
+
+                'message' => $e->getMessage()
+
+            ], 500);
+        }
+    }
+
+    // =========================
+    // GET SINGLE PAYMENT
+    // =========================
+    public function getPayment($id)
+    {
+        try {
+
+            $payment = Payment::find($id);
+
+            if (!$payment) {
+
+                return response()->json([
+
+                    'success' => false,
+
+                    'message' => 'Payment Not Found'
+
+                ], 404);
+            }
+
+            return response()->json([
+
+                'success' => true,
+
+                'payment' => $payment
+            ]);
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+
+                'success' => false,
+
+                'message' => $e->getMessage()
+
+            ], 500);
+        }
+    }
+
+    // =========================
+    // PAYMENT SUCCESS ONLY
+    // =========================
+    public function successfulPayments()
+    {
+        try {
+
+            $payments = Payment::where(
+                'payment_status',
+                'paid'
+            )->latest()->get();
+
+            return response()->json([
+
+                'success' => true,
+
+                'payments' => $payments
             ]);
 
         } catch (\Exception $e) {

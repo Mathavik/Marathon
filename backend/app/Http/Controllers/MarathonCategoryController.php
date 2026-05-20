@@ -27,7 +27,7 @@ class MarathonCategoryController extends Controller
         'event_time' => 'required',
         'registration_fee' => 'required',
         'marathon_route' => 'required',
-        'image' => 'nullable|mimes:jpg,jpeg,png,avif,webp|max:2048'
+        'image' => 'nullable|mimes:jpg,jpeg,png,avif,webp|max:10048'
     ]);
 
     // OLD DATA
