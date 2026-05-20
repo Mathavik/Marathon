@@ -3,20 +3,23 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\EventController;
-
 use App\Http\Controllers\PaymentController;
-
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\MarathonRegistrationController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AdvertisementController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\EventRegistrationsController;
+use App\Http\Controllers\TeamController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Admin\CertificateController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventHighlightController;
 use App\Http\Controllers\HeroSectionController;
-
 use App\Http\Controllers\SponsorController;
+use App\Http\Controllers\MarathonCategoryController;
 Route::get('/schools', [StudentController::class, 'getSchools']);
 
 Route::middleware('auth.custom')->group(function () {
@@ -172,8 +175,6 @@ Route::post('/hero-section', [HeroSectionController::class, 'store']);
 Route::get('/event-highlights', [EventHighlightController::class, 'index']);
 
 Route::post('/event-highlights', [EventHighlightController::class, 'store']);
-
-use App\Http\Controllers\MarathonCategoryController;
 
 Route::get('/marathon-category', [MarathonCategoryController::class, 'index']);
 Route::post('/marathon-category', [MarathonCategoryController::class, 'store']);

@@ -54,7 +54,7 @@ const AdminLogin: React.FC = () => {
       Swal.fire({
         icon: "error",
         title: "Access Denied",
-        text: err.response?.data?.error || "Invalid admin credentials.",
+        text: err.response?.data?.message || "Invalid admin credentials.",
         confirmButtonColor: "#6366f1",
       });
     } finally {

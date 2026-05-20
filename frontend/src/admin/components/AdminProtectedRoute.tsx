@@ -10,7 +10,7 @@ const AdminProtectedRoute: React.FC<Props> = ({ children }) => {
 
   if (!adminEmail) {
     // ❌ Not logged in → redirect to login
-    return <Navigate to="/admin/adminlogin" replace />;
+    return <Navigate to="/admin/login" replace />;
   }
 
   // ✅ Logged in → allow access

@@ -24,7 +24,8 @@ const AdminRoutes: React.FC = () => {
   return (
     <Routes>
       {/* 🔓 Public Route */}
-      <Route path="adminlogin" element={<AdminLogin />} />
+      <Route path="login" element={<AdminLogin />} />
+      <Route path="adminlogin" element={<Navigate to="login" replace />} />
 
       {/* 🔐 Protected Routes */}
       <Route
