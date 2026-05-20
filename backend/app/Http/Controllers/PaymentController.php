@@ -248,10 +248,10 @@ class PaymentController extends Controller
     {
         try {
 
-            $payments = Payment::where(
-                'payment_status',
-                'paid'
-            )->latest()->get();
+           $payments = Payment::with('student')
+    ->where('payment_status', 'paid')
+    ->latest()
+    ->get();
 
             return response()->json([
 

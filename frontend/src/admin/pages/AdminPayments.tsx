@@ -12,15 +12,24 @@ interface Payment {
   payment_status: string;
   payment_date: string;
   created_at: string;
+
+  student?: {
+    id: number;
+    name: string;
+    email: string;
+  };
 }
 
 const AdminPayments = () => {
+
   const [payments, setPayments] = useState<Payment[]>([]);
   const [loading, setLoading] = useState(true);
 
   // FETCH PAYMENTS
   const fetchPayments = async () => {
+
     try {
+
       setLoading(true);
 
       const response = await axiosInstance.get(
@@ -44,26 +53,29 @@ const AdminPayments = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#050816] text-white p-6 md:p-8">
-      
+
+    <div className="min-h-screen bg-[#050816] text-white p-4 md:p-8">
+
       {/* HEADER */}
-      <div className="rounded-[32px] border border-orange-500/10 bg-gradient-to-br from-orange-500/10 via-slate-900/80 to-black/80 p-8 shadow-[0_30px_80px_rgba(255,115,0,0.08)] mb-8">
+      <div className="rounded-[32px] border border-orange-500/10 bg-gradient-to-br from-orange-500/10 via-slate-900/80 to-black/80 p-6 md:p-8 shadow-[0_30px_80px_rgba(255,115,0,0.08)] mb-8">
 
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 
           <div>
-           
 
-            
+            <h1 className="text-2xl md:text-4xl font-black text-white">
+              Payment Management
+            </h1>
 
-            <p className="text-slate-400 mt-4 text-sm md:text-base">
+            <p className="text-slate-400 mt-3 text-sm md:text-base">
               View all successful marathon payment transactions.
             </p>
+
           </div>
 
           <button
             onClick={fetchPayments}
-            className="rounded-3xl bg-gradient-to-r from-orange-500 to-orange-600 px-7 py-3 text-sm font-black uppercase tracking-[0.15em] text-slate-950 shadow-[0_20px_40px_rgba(249,115,22,0.25)] transition-all duration-300 hover:scale-[1.03]"
+            className="rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-3 text-xs md:text-sm font-black uppercase tracking-[0.15em] text-slate-950 shadow-[0_20px_40px_rgba(249,115,22,0.25)] transition-all duration-300 hover:scale-[1.03]"
           >
             {loading ? "Refreshing..." : "Refresh Data"}
           </button>
@@ -73,170 +85,175 @@ const AdminPayments = () => {
         {/* STATS */}
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-5">
 
-          <div className="rounded-3xl border border-orange-500/10 bg-white/5 p-6">
+          <div className="rounded-3xl border border-orange-500/10 bg-white/5 p-5 md:p-6">
+
             <p className="text-xs uppercase tracking-[0.35em] text-slate-400 mb-3">
               Total Payments
             </p>
 
-            <h2 className="text-4xl font-black text-white">
+            <h2 className="text-3xl md:text-4xl font-black text-white">
               {payments.length}
             </h2>
+
           </div>
 
-          <div className="rounded-3xl border border-orange-500/10 bg-white/5 p-6">
+          <div className="rounded-3xl border border-orange-500/10 bg-white/5 p-5 md:p-6">
+
             <p className="text-xs uppercase tracking-[0.35em] text-slate-400 mb-3">
               Status
             </p>
 
-            <h2 className="text-4xl font-black text-orange-400">
+            <h2 className="text-3xl md:text-4xl font-black text-orange-400">
               {loading ? "Loading" : "Live"}
             </h2>
+
           </div>
 
-          <div className="rounded-3xl border border-orange-500/10 bg-white/5 p-6">
+          <div className="rounded-3xl border border-orange-500/10 bg-white/5 p-5 md:p-6">
+
             <p className="text-xs uppercase tracking-[0.35em] text-slate-400 mb-3">
               Last Updated
             </p>
 
-            <h2 className="text-xl font-black text-white">
+            <h2 className="text-lg md:text-xl font-black text-white">
               {new Date().toLocaleDateString()}
             </h2>
+
           </div>
 
         </div>
+
       </div>
 
-      {/* PAYMENTS TABLE */}
-      <div className="rounded-[32px] border border-slate-800 bg-slate-950/90 shadow-[0_30px_60px_rgba(0,0,0,0.3)] overflow-hidden">
+      {/* TABLE */}
+      <div className="rounded-[32px] border border-orange-500/10 bg-slate-950/90 shadow-[0_30px_60px_rgba(0,0,0,0.3)] overflow-hidden">
 
         {loading ? (
 
-          <div className="p-20 text-center text-slate-500 animate-pulse text-lg">
+          <div className="p-16 text-center text-slate-500 text-lg animate-pulse">
             Loading Payments...
           </div>
 
         ) : payments.length === 0 ? (
 
-          <div className="p-20 text-center text-red-400 text-lg">
+          <div className="p-16 text-center text-red-400 text-lg">
             No Payments Found
           </div>
 
         ) : (
 
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 p-6">
+          <table className="w-full">
 
-            {payments.map((payment) => (
+            {/* TABLE HEADER */}
+            <thead className="bg-orange-500/10 border-b border-orange-500/10">
 
-              <div
-                key={payment.id}
-                className="rounded-3xl border border-orange-500/10 bg-gradient-to-br from-slate-900 to-black p-6 hover:border-orange-500/30 transition-all duration-300 hover:scale-[1.01]"
-              >
+              <tr>
 
-                {/* TOP */}
-                <div className="flex items-center justify-between mb-6">
+                <th className="px-3 md:px-6 py-4 md:py-5 text-left text-[10px] md:text-xs uppercase tracking-[0.15em] text-orange-300 font-bold">
+                  Student
+                </th>
 
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.3em] text-slate-500 mb-2">
-                      Payment ID
-                    </p>
+                <th className="px-3 md:px-6 py-4 md:py-5 text-left text-[10px] md:text-xs uppercase tracking-[0.15em] text-orange-300 font-bold">
+                  Payment Type
+                </th>
 
-                    <h2 className="text-lg font-black text-white break-all">
-                      {payment.payment_id}
-                    </h2>
-                  </div>
+                <th className="px-3 md:px-6 py-4 md:py-5 text-left text-[10px] md:text-xs uppercase tracking-[0.15em] text-orange-300 font-bold">
+                  Amount
+                </th>
 
-                  <span className="rounded-full bg-green-500/15 px-4 py-2 text-xs font-bold uppercase tracking-wide text-green-300 border border-green-500/20">
-                    {payment.payment_status}
-                  </span>
+                <th className="px-3 md:px-6 py-4 md:py-5 text-left text-[10px] md:text-xs uppercase tracking-[0.15em] text-orange-300 font-bold">
+                  Status
+                </th>
 
-                </div>
+                <th className="px-3 md:px-6 py-4 md:py-5 text-left text-[10px] md:text-xs uppercase tracking-[0.15em] text-orange-300 font-bold">
+                  Date
+                </th>
 
-                {/* DETAILS */}
-                <div className="space-y-4">
+              </tr>
 
-                  <div className="flex justify-between gap-4 border-b border-slate-800 pb-3">
-                    <span className="text-slate-400">
-                      Student ID
-                    </span>
+            </thead>
 
-                    <span className="font-semibold text-white">
-                      {payment.event_student_id}
-                    </span>
-                  </div>
+            {/* TABLE BODY */}
+            <tbody>
 
-                  <div className="flex justify-between gap-4 border-b border-slate-800 pb-3">
-                    <span className="text-slate-400">
-                      Order ID
-                    </span>
+              {payments.map((payment, index) => (
 
-                    <span className="font-semibold text-white break-all text-right">
-                      {payment.order_id}
-                    </span>
-                  </div>
+                <tr
+                  key={payment.id}
+                  className={`border-b border-slate-800 hover:bg-orange-500/5 transition-all duration-300 ${
+                    index % 2 === 0
+                      ? "bg-slate-900/40"
+                      : "bg-black/30"
+                  }`}
+                >
 
-                  <div className="flex justify-between gap-4 border-b border-slate-800 pb-3">
-                    <span className="text-slate-400">
-                      Transaction ID
-                    </span>
+                  {/* STUDENT */}
+                  <td className="px-3 md:px-6 py-4 md:py-5">
 
-                    <span className="font-semibold text-white break-all text-right">
-                      {payment.transaction_id}
-                    </span>
-                  </div>
+                    <div>
 
-                  <div className="flex justify-between gap-4 border-b border-slate-800 pb-3">
-                    <span className="text-slate-400">
-                      Payment Type
-                    </span>
+                      <p className="font-semibold text-white text-xs md:text-sm">
+                        {payment.student?.name || "No Name"}
+                      </p>
 
-                    <span className="font-semibold text-orange-300 uppercase">
+                      <p className="text-[10px] md:text-xs text-slate-500 mt-1">
+                        ID : {payment.event_student_id}
+                      </p>
+
+                    </div>
+
+                  </td>
+
+                  {/* PAYMENT TYPE */}
+                  <td className="px-3 md:px-6 py-4 md:py-5">
+
+                    <span className="rounded-full bg-orange-500/10 border border-orange-500/20 px-2 md:px-4 py-1 md:py-2 text-[10px] md:text-xs font-bold uppercase tracking-wide text-orange-300">
                       {payment.payment_type}
                     </span>
-                  </div>
 
-                  <div className="flex justify-between gap-4 border-b border-slate-800 pb-3">
-                    <span className="text-slate-400">
-                      Amount
-                    </span>
+                  </td>
 
-                    <span className="font-black text-green-400 text-xl">
+                  {/* AMOUNT */}
+                  <td className="px-3 md:px-6 py-4 md:py-5">
+
+                    <p className="text-sm md:text-lg font-black text-green-400">
                       ₹ {payment.amount}
-                    </span>
-                  </div>
+                    </p>
 
-                  <div className="flex justify-between gap-4 border-b border-slate-800 pb-3">
-                    <span className="text-slate-400">
-                      Payment Date
+                  </td>
+
+                  {/* STATUS */}
+                  <td className="px-3 md:px-6 py-4 md:py-5">
+
+                    <span className="rounded-full bg-green-500/15 border border-green-500/20 px-2 md:px-4 py-1 md:py-2 text-[10px] md:text-xs font-bold uppercase tracking-wide text-green-300">
+                      {payment.payment_status}
                     </span>
 
-                    <span className="font-semibold text-white">
+                  </td>
+
+                  {/* PAYMENT DATE */}
+                  <td className="px-3 md:px-6 py-4 md:py-5">
+
+                    <p className="text-[10px] md:text-sm text-slate-300">
                       {payment.payment_date}
-                    </span>
-                  </div>
+                    </p>
 
-                  <div className="flex justify-between gap-4">
-                    <span className="text-slate-400">
-                      Created At
-                    </span>
+                  </td>
 
-                    <span className="font-semibold text-slate-300 text-right">
-                      {new Date(payment.created_at).toLocaleString()}
-                    </span>
-                  </div>
+                </tr>
 
-                </div>
+              ))}
 
-              </div>
+            </tbody>
 
-            ))}
-
-          </div>
+          </table>
 
         )}
 
       </div>
 
     </div>
+
   );
 };
 
