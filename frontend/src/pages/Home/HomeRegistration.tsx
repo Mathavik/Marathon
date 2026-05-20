@@ -181,7 +181,7 @@ const MarathonRegister = () => {
               <div className="flex items-center gap-4 bg-white/5 border border-white/10 p-4 rounded-2xl">
 
                 <div className="bg-orange-500/20 p-3 rounded-xl text-orange-500">
-                   ✉
+                  ✉
                 </div>
 
                 <div>
@@ -204,7 +204,7 @@ const MarathonRegister = () => {
 
           <div className="mb-8">
 
-            
+
 
             <h2 className="text-3xl font-bold">
               Create Your Runner Profile
@@ -240,9 +240,16 @@ const MarathonRegister = () => {
             />
 
             <input
+              type="text"
               name="phone"
               placeholder="Phone Number"
-              onChange={handleChange}
+              value={form.phone}
+              onChange={(e) => {
+                const value = e.target.value.replace(/\D/g, "");
+                setForm({ ...form, phone: value });
+              }}
+              maxLength={10}
+              inputMode="numeric"
               className="inputStyle"
             />
 
@@ -285,9 +292,16 @@ const MarathonRegister = () => {
             />
 
             <input
+              type="text"
               name="emergency_phone"
               placeholder="Emergency Contact Phone"
-              onChange={handleChange}
+              value={form.emergency_phone}
+              onChange={(e) => {
+                const value = e.target.value.replace(/\D/g, "");
+                setForm({ ...form, emergency_phone: value });
+              }}
+              maxLength={10}
+              inputMode="numeric"
               className="inputStyle"
             />
 
