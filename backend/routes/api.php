@@ -144,7 +144,7 @@ Route::match(['post', 'put'], '/ads/{id}', [AdvertisementController::class, 'upd
 
 
 
-
+Route::get('/successful-payments', [PaymentController::class, 'successfulPayments']);
 Route::post('/payment/create-order', [PaymentController::class, 'createOrder']);
 
 Route::post('/payment/verify', [PaymentController::class, 'verifyPayment']);
