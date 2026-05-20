@@ -54,13 +54,9 @@ const AdminRegistrationsPage: React.FC = () => {
       <div className="rounded-[32px] border border-orange-500/10 bg-gradient-to-br from-orange-500/10 via-slate-900/80 to-black/80 p-6 shadow-[0_30px_80px_rgba(255,115,0,0.08)] mb-8">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
           <div>
-            <p className="text-sm uppercase tracking-[0.45em] text-orange-300 font-bold mb-3">
-              Marathon Dashboard
-            </p>
+            
 
-            <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tight text-white">
-              Registered Users
-            </h1>
+           
 
             <p className="text-slate-400 mt-4">
               All marathon participants registered through the website.
